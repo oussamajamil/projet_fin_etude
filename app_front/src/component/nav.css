@@ -1,0 +1,43 @@
+.MuiToolbar-root,
+.MuiToolbar-regular,
+.MuiToolbar-gutters {
+    background-color: #ffdde1;
+    position: fixed;
+}
+
+li.MuiMenuItem-root :hover {
+    background-color: #f50057;
+    text-decoration: none;
+}
+
+.menu1:hover {
+    color: #f50057;
+    cursor: pointer;
+}
+
+.list {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    justify-content: space-between;
+}
+
+Button.btnProjet {
+    margin-left: 20px;
+    background-color: aquamarine;
+}
+
+Button.btnProjet:hover {
+    background-color: #f50057;
+}
+
+.list li {
+    margin-left: 15px;
+    font-size: 20px;
+}
+
+.list li:hover {
+    color: #f50057;
+    cursor: pointer;
+    font-size: 23px;
+}

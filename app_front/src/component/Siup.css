@@ -1,0 +1,7 @@
+.conn {
+    cursor: pointer;
+}
+
+.conn:hover {
+    color: #f50057;
+}
