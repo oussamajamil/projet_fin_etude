@@ -1,43 +1,24 @@
-.MuiToolbar-root,
-.MuiToolbar-regular,
-.MuiToolbar-gutters {
-    background-color: #ffdde1;
-    position: fixed;
+.ng {
+    background-color: papayawhip;
 }
 
-li.MuiMenuItem-root :hover {
-    background-color: #f50057;
-    text-decoration: none;
+.dropdown-toggle {
+    background-color: transparent;
+    border: none;
+    color: black;
+    font-size: large;
 }
 
-.menu1:hover {
-    color: #f50057;
-    cursor: pointer;
+.dropdown-toggle:hover,
+.dropdown-toggle:active {
+    background-color: palevioletred;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.list {
-    display: flex;
-    flex-direction: row;
-    list-style: none;
-    justify-content: space-between;
+.btnConnec:hover {
+    background-color: palevioletred!important;
 }
 
-Button.btnProjet {
-    margin-left: 20px;
-    background-color: aquamarine;
-}
-
-Button.btnProjet:hover {
-    background-color: #f50057;
-}
-
-.list li {
-    margin-left: 15px;
-    font-size: 20px;
-}
-
-.list li:hover {
-    color: #f50057;
-    cursor: pointer;
-    font-size: 23px;
+@media only screen and (max-width: 600px) {
+    body {}
 }

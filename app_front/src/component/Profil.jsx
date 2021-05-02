@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 
 function Profil(props) {
+  const user=useSelector((state)=>state);
+  let history = useHistory();
+  useEffect(() => {
+    if(!localStorage.getItem('token'))
+    {
+      history.push('/CONNECTER');
+    }
+  })
     return (
         <div>
-          {props.name==null?(<div>auccun user Connecter</div>):(<div>{props.name.user_name}</div>) }
+         
         </div>
     )
 }

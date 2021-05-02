@@ -1,239 +1,303 @@
-import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Badge from '@material-ui/core/Badge';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
+
+import React, { useEffect, useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './nav.css';
-import Button from '@material-ui/core/Button';
-import  { cyan,HUE } from '@material-ui/core/colors';
+import Navbar from 'react-bootstrap/Navbar';
+import styled from 'styled-components';
+import {useSelector} from 'react-redux';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Avatar from '@material-ui/core/Avatar';
-import PersonIcon from '@material-ui/icons/Person';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import LockIcon from '@material-ui/icons/Lock';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import CreateIcon from '@material-ui/icons/Create';
+import ListItem from '@material-ui/core/ListItem';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import axios from 'axios';
+import Cookies from  'js-cookie';
+import AddIcon from '@material-ui/icons/Add';
+import {Hommes} from '../redux/actions/UserActions';
+import { useDispatch } from 'react-redux';
+import {NavDropdown,Nav,FormControl,Button,Form,DropdownButton} from 'react-bootstrap';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  useParams,
+  Link,
 } from "react-router-dom";
-const btnColor= cyan[500];
+import { makeStyles, withStyles } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-   
-  },
- 
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
+  img_slage: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputRoot: {
-    color: 'inherit',
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-    avatar: {
+    '& > *': {
       margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
     },
+  },
+  button: {
+    margin: theme.spacing(0,10),
+    backgroundColor: 'palevioletred',
   },
 }));
-
-export default function Nav() {
+const StyledMenu = withStyles({
+  paper: {
+    border: '1px solid #d3d4d5',
+  },
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'center',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+    {...props}
+  />
+));
+function NavP() {
+  const dispatch=useDispatch();
+  useEffect(() => {
+    getData();
+  },[]);
+  const getData=async ()=>{
+        let token='Bearer '+localStorage.getItem('token');
+        const frm=new FormData();
+        frm.append('user_name',Cookies.get('user_name'))
+       await axios({
+            method: "POST",
+            url: '/getUser_Connected',
+            data: frm,
+            headers: { "Content-Type": "multipart/form-data" , 
+                         "Authorization":token
+                     },
+            }).then(res=>{
+                dispatch(Hommes(res.data.data[0]));
+            }).catch(errres=>{
+                console.log(errres);
+            })
+    }
+  function ListItemLink(props) {
+    return <ListItem button component="a" {...props} />;
+  }
   const classes = useStyles();
+ 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event) => {
+  const handleClicks1 = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
+  const handleCloses1 = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}  className="menu1"><Link to="/CONNECTER">Connecter</Link></MenuItem>
-      <MenuItem onClick={handleMenuClose} className="menu1"><Link to="/creerCompte">Creer Compte</Link></MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
-
-  return (
-    
-    <div className={classes.grow}>
-      <AppBar position="static" className="nav1">
-        <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
-           Mon projet
-          </Typography>
-          <ul className="list">
-              <li>explorer</li>
-              <li>comment travailler</li>
-              <li>rechercher</li>
-          </ul>
-          <div className={classes.grow} />
-          <Button variant="contained" color="primary" className="btnProjet">
-          Creer Projet
-        </Button>
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" className="menu1" color="inherit">
-              <Badge  color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge  color="secondary">
-                <NotificationsIcon className="menu1"/>
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications"  className="menu1"color="inherit" onClick={handleProfileMenuOpen}>
-              <Badge  color="secondary">
-                <PersonIcon />
-              </Badge>
-            </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
+  }; 
+  const user=useSelector((state)=>state.app1.user_connecter);
+  const user1=useSelector((state)=>state.app.users);
+  const StyledMenuItem = withStyles((theme) => ({
+    root: {
+      '&:focus': {
+        backgroundColor: theme.palette.primary.main,
+        '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+          color: theme.palette.common.white,
+        },
+      },
+    },
+  }))(MenuItem);
+    return (
+      <Router>
+        <div>
+         <Navbar   expand="lg" className="ng">
+        <Navbar.Brand href="">Journal</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="" > Homme</Nav.Link>
+            <Nav.Link href="/Questions">Question</Nav.Link>
+            <Nav.Link href="/Projets">Projets</Nav.Link>
+             {user==null?
+             user1==null?""
+               :
+              <Button
+              variant="contained"
+              
+              className={classes.button}
+              startIcon={<AddIcon />}
             >
-              <MoreIcon />
-            </IconButton>
-          </div>
-         
-        </Toolbar>
-      
-      </AppBar>
-    
-      {renderMobileMenu}
-      {renderMenu}
-    </div>
-  
-  );
+              creer Votre projet
+            </Button>:
+            <Button
+            variant="contained"
+            
+            className={classes.button}
+            startIcon={<AddIcon />}
+          >
+            creer Votre projet
+          </Button>
+             }
 
+          </Nav>
+          {user==null?
+          user1==null?
+            <Nav>
+            <div>
+          <Button
+          aria-controls="customized-menu"
+          aria-haspopup="true"
+          variant="contained"
+          color="primary"
+          className="btnConnec"
+          onClick={handleClicks1}
+          >
+          Connection
+          </Button>
+          <StyledMenu
+          id="customized-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleCloses1}
+          >
+          <StyledMenuItem >
+          <ListItemLink href="/CONNECTER">
+            <ListItemIcon >
+              <LockOpenIcon fontSize="small" />
+            
+            </ListItemIcon>
+            <ListItemText primary="Connecter" />
+            </ListItemLink>
+          </StyledMenuItem>
+          <StyledMenuItem>
+          <ListItemLink href="/CreerCompte">
+            <ListItemIcon>
+              <CreateIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="creer compte" />
+            </ListItemLink>
+          </StyledMenuItem>
+          </StyledMenu>
+          </div>
+          </Nav>:
+           <Nav>
+           <div>
+       <Button
+         aria-controls="customized-menu"
+         aria-haspopup="true"
+         variant="contained"
+         color="primary"
+         className="btnConnec"
+         onClick={handleClicks1}
+       >
+         {user1.user_name}
+       </Button>
+       <StyledMenu
+         id="customized-menu"
+         anchorEl={anchorEl}
+         keepMounted
+         open={Boolean(anchorEl)}
+         onClose={handleCloses1}
+       >
+          <ListItemLink href="/Profil">
+         <StyledMenuItem>
+           <ListItemIcon>
+             <AccountCircleIcon fontSize="small" />
+           </ListItemIcon>
+           <ListItemText primary="Profil" />
+         </StyledMenuItem>
+         </ListItemLink>
+         <ListItemLink href="/Deconecter">
+         <StyledMenuItem>
+           <ListItemIcon>
+             <LockIcon fontSize="small" />
+           </ListItemIcon>
+           <ListItemText primary="Deconecter"/>
+         </StyledMenuItem>
+         </ListItemLink>
+       </StyledMenu>
+     </div>
+           <Avatar className={classes.img_slage}>{user1.prenom.charAt(0).toUpperCase()}{user1.nom.charAt(0).toUpperCase()}</Avatar>
+          </Nav>
+          :<Nav>
+          <div>
+      <Button
+        aria-controls="customized-menu"
+        aria-haspopup="true"
+        variant="contained"
+        color="primary"
+        className="btnConnec"
+        onClick={handleClicks1}
+      >
+        {user.user_name}
+      </Button>
+      <StyledMenu
+        id="customized-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleCloses1}
+      >
+         <ListItemLink href="/Profil">
+        <StyledMenuItem>
+          <ListItemIcon>
+            <AccountCircleIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Profil" />
+        </StyledMenuItem>
+        </ListItemLink>
+        <ListItemLink href="/Deconecter">
+        <StyledMenuItem>
+          <ListItemIcon>
+            <LockIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Deconecter"/>
+        </StyledMenuItem>
+        </ListItemLink>
+      </StyledMenu>
+    </div>
+          <Avatar className={classes.img_slage}>{user.prenom.charAt(0).toUpperCase()}{user.nom.charAt(0).toUpperCase()}</Avatar>
+         </Nav>
+             
+         }
+            
+          
+        </Navbar.Collapse>
+       </Navbar>
+        </div>
+       </Router>
+    )
 }
+export default NavP
+const BtnLog= styled.div `
+     margin-right:20px;
+`;
+const Astyle= styled.a `
+     text-decoration: none;
+     color:#000;
+  &::hover
+
+`;
+const Divma= styled.div `
+    margin-left:20px;
+    @media(max-width: 768px) {
+      margin-left:3px;
+    }
+`;
+const W= styled.div `
+   width:70px;
+   @media(max-width: 768px) {
+    marginleft:0px;
+
+  }
+`;
+const BtnConnecter= styled.button `
+background:red;
+`;
+
+const flexAt= styled.p `
+position:relative;
+top:10px;
+`;

@@ -21,6 +21,6 @@ function AllProjet() {
             HELLO
         </div>
     )
-}
+} 
 
 export default AllProjet

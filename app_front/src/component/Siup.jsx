@@ -8,11 +8,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
-import 'react-phone-input-2/lib/style.css'
+import 'react-phone-input-2/lib/style.css';
+import styled from 'styled-components';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import Container from '@material-ui/core/Container' 
 import IconButton from '@material-ui/core/IconButton';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -21,17 +22,12 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import IntlTelInput from 'react-intl-tel-input';
 import 'react-intl-tel-input/dist/main.css';
 import './Siup.css';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-import ReactPhoneInput from 'react-phone-input-material-ui';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { getDisplayDate } from '@material-ui/pickers/_helpers/text-field-helper';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Cookies from  'js-cookie';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -46,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: 'palevioletred',
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -54,17 +50,18 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: 'palevioletred',
   },
 }));
 
 export default function Siup() {
-  const [open, setOpen] = React.useState(false);
-  const handleClose = () => {
-    setOpen(false);
+  const [open1, setOpen1] = React.useState(false);
+  const handleClose1 = () => {
+    setOpen1(false);
   };
   
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpen1 = () => {
+    setOpen1(true);
   };
   const classes = useStyles();
   const [pays,setPays]=useState([]);
@@ -77,38 +74,158 @@ export default function Siup() {
     date_naissance: '',
     showPassword1: false,
     showPassword2: false,
+    pays:'',
+    email:'',
   });
+  const [errornom,seterrornom]=useState('');
+  const [errorprenom,seterrorprenom]=useState('');
+  const [erroruser_name,seterroruser_name]=useState('');
+  const [erroremail,seterroremail]=useState('');
+  const [errorpassword,seterrorpassword]=useState('');
+  const [errorpasswordc,seterrorpasswordc]=useState('');
+  const [errorpays,seterrorpays]=useState('');
+  const [errordate,seterrordate]=useState('');
+  const [loadin,setloadin]=useState(false);
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
-
+  let history = useHistory();
   const handleClickShowPassword1 = () => {
     setValues({ ...values, showPassword1: !values.showPassword1 });
   };
   const handleClickShowPassword2 = () => {
     setValues({ ...values, showPassword2: !values.showPassword2 });
   };
-  const handlesubmit=(e)=>
+  function validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+   async function handlesubmit(e)
   {
     e.preventDefault();
-    const bodyFormData=new FormData();
-    bodyFormData.append('nom',values.email);
-    bodyFormData.append('prenom',values.password);
-    bodyFormData.append('user_name',values.password);
-    bodyFormData.append('email',values.email);
-    bodyFormData.append('password',values.password);
-    bodyFormData.append('c_password',values.password);
-    bodyFormData.append('date_naissance',values.password);
-    axios({
-  method: "post",
-  url: "Login",
-  data: bodyFormData,
-  headers: { "Content-Type": "multipart/form-data" },
-  }).then(res=>{
-  console.log(res);
-  }).catch(err=>{
-    console.log(err);
-  })
+    if(values.nom!=="" && values.prenom!=="" && values.password!=="" && values.c_password!=="" && values.email!=="" && values.pays!=="" && values.date_naissance && values.user_name &&validateEmail(values.email) && values.password==values.c_password )
+    {
+      setloadin(true);
+      const dt=new FormData();
+      dt.append('nom',values.nom);
+      dt.append('prenom',values.prenom);
+      dt.append('user_name',values.user_name);
+      dt.append('email',values.email);
+      dt.append('password',values.password);
+      dt.append('pays',values.pays);
+      dt.append('date_naissance',values.date_naissance);
+      
+       await axios({
+        method: "post",
+        url: "/register",
+        data: dt,
+        headers: { "Content-Type": "multipart/form-data" },
+        }).then(res=>{
+          console.log(res.data);
+          if(res.data.email)
+          {
+            seterroremail('email deja exists');
+          }
+          if(res.data.user_name)
+          {
+            seterroruser_name('user name déja exists');
+          }
+         if(res.data.Token)
+          {
+           console.log(res.data);
+            history.push("/CONNECTER");
+            Cookies.set('email',res.data.Data,new Date().getTime() +  3* 60 * 1000);
+          }
+      }).catch(err=>{
+        console.log(err);
+      })
+        setloadin(false);
+    }
+    else
+    {
+    if(values.nom==="")
+    {
+      seterrornom("tapez votre nom");
+    }
+    if(values.nom!=="")
+    {
+      seterrornom('');
+    }
+    if(values.prenom==="")
+    {
+      seterrorprenom("tapez votre prenom");
+    }
+    if(values.prenom!=="")
+    {
+      seterrorprenom('');
+    }
+    if(values.user_name==="")
+    {
+      seterroruser_name("tapez votre user name");
+    }
+    if(values.user_name!=="")
+    {
+      seterroruser_name('');
+    }
+    if(values.email==="")
+    {
+      seterroremail("tapez votre email ");
+    }
+    if(values.email!=="")
+    {
+      if(validateEmail(values.email))
+      {
+        seterroremail('');
+      }
+      else
+      {
+        seterroremail('format email invalide');
+        
+      }
+      
+    }
+    
+    if(values.password.length<8)
+    {
+      seterrorpassword('tapez mode passe qui contient >8')
+    }
+    if(values.password.length>8)
+    {
+      seterrorpassword('')
+    }
+    if(values.c_password.length<8)
+    {
+      seterrorpasswordc('tapez mode passe qui contient >8')
+    }
+    if(values.c_password.length>8)
+    {
+      if(values.c_password==values.password)
+      {
+        seterrorpasswordc('')
+      }
+      else
+      {
+        seterrorpasswordc('les deux mode passe il est defferents');
+      }
+      
+    }
+    if(values.date_naissance=="")
+    {
+      seterrordate('choiser la date')
+    }
+    if(values.date_naissance!="")
+    {
+      seterrordate('')
+    }
+    if(values.pays==="")
+    {
+      seterrorpays('choiser pays')
+    }
+    if(values.pays!=="")
+    {
+      seterrorpays('')
+    }
+  }
   }
   const handleMouseDownPassword1 = (event) => {
     event.preventDefault();
@@ -129,10 +246,6 @@ function getData()
          setData(res.data);
       });
   }
-  function check()
-  {
-    alert(values.Tele)
-  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -141,12 +254,25 @@ function getData()
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Creer Votre Compte
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={handlesubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
+              {errornom==""?
               <TextField
+              autoComplete="nom"
+              name="nom"
+              variant="outlined"
+              required
+              fullWidth
+              id="firstName"
+              label="nom"
+              autoFocus
+              onChange={handleChange('nom')}
+            />:
+            <TextField
+               error
                 autoComplete="nom"
                 name="nom"
                 variant="outlined"
@@ -155,11 +281,15 @@ function getData()
                 id="firstName"
                 label="nom"
                 autoFocus
+                helperText={errornom}
                 onChange={handleChange('nom')}
               />
+              }
+              
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              {errorprenom==""?
+               <TextField
                 variant="outlined"
                 required
                 fullWidth
@@ -168,9 +298,24 @@ function getData()
                 name="prenom"
                 autoComplete="lname"
                 onChange={handleChange('prenom')}
+              />:
+              <TextField
+                error
+                variant="outlined"
+                required
+                fullWidth
+                id="prenom"
+                label="prenom"
+                name="prenom"
+                autoComplete="lname"
+                helperText={errorprenom}
+                onChange={handleChange('prenom')}
               />
+              }
+             
             </Grid>
             <Grid item xs={12}>
+              {erroruser_name==""?
               <TextField
                 variant="outlined"
                 required
@@ -180,11 +325,39 @@ function getData()
                 name="user_name"
                 autoComplete="user_name"
                 onChange={handleChange('user_name')}
+              />:
+              <TextField
+                error
+                variant="outlined"
+                required
+                fullWidth
+                id="user_name"
+                label="user_name"
+                name="user_name"
+                autoComplete="user_name"
+                helperText={erroruser_name}
+                onChange={handleChange('user_name')}
               />
+              }
+              
               
             </Grid>
             <Grid item xs={12}>
+              {erroremail===""?
               <TextField
+              
+              variant="outlined"
+              required
+              fullWidth
+              name="email"
+              label="email"
+              type="email"
+              id="email"
+              autoComplete="email"
+              onChange={handleChange('email')}
+            />:
+            <TextField
+                error
                 variant="outlined"
                 required
                 fullWidth
@@ -193,10 +366,14 @@ function getData()
                 type="email"
                 id="email"
                 autoComplete="email"
+                helperText={erroremail}
                 onChange={handleChange('email')}
               />
+              }
+              
             </Grid>
             <Grid item xs={12}>
+            {errorpassword==""?
             <FormControl  variant="outlined"  fullWidth>
           <InputLabel htmlFor="outlined-adornment-password">mode passe</InputLabel>
           <OutlinedInput
@@ -218,51 +395,123 @@ function getData()
             }
             labelWidth={70}
           />
-        </FormControl>
+        </FormControl>:
+        <FormControl  variant="outlined"  fullWidth>
+        <InputLabel htmlFor="outlined-adornment-password">mode passe</InputLabel>
+        <OutlinedInput
+        error
+          id="outlined-adornment-password"
+          type={values.showPassword1 ? 'text' : 'password'}
+          value={values.password}
+          onChange={handleChange('password')}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword1}
+                onMouseDown={handleMouseDownPassword1}
+                edge="end"
+              >
+                {values.showPassword1 ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          }
+          labelWidth={70}
+        />
+      </FormControl>}
+        {errorpassword!=""?<Pred>{errorpassword}</Pred>:""}
             </Grid>
             <Grid item xs={12}>
+              {errorpasswordc==""?
+              <FormControl  variant="outlined"  fullWidth>
+              <InputLabel htmlFor="outlined-adornment-password">confirmer mode passe</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={values.showPassword2 ? 'text' : 'password'}
+                value={values.c_password}
+                onChange={handleChange('c_password')}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword2}
+                      onMouseDown={handleMouseDownPassword2}
+                      edge="end"
+                    >
+                      {values.showPassword2 ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={70}
+              />
+            </FormControl>:
             <FormControl  variant="outlined"  fullWidth>
-          <InputLabel htmlFor="outlined-adornment-password">confirmer mode passe</InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-password"
-            type={values.showPassword2 ? 'text' : 'password'}
-            value={values.c_password}
-            onChange={handleChange('c_password')}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword2}
-                  onMouseDown={handleMouseDownPassword2}
-                  edge="end"
-                >
-                  {values.showPassword2 ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-            labelWidth={70}
-          />
-        </FormControl>
+            <InputLabel htmlFor="outlined-adornment-password">confirmer mode passe</InputLabel>
+            <OutlinedInput
+             error
+              id="outlined-adornment-password"
+              type={values.showPassword2 ? 'text' : 'password'}
+              value={values.c_password}
+              onChange={handleChange('c_password')}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword2}
+                    onMouseDown={handleMouseDownPassword2}
+                    edge="end"
+                  >
+                    {values.showPassword2 ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              labelWidth={70}
+            />
+          </FormControl>
+          }
+          {errorpasswordc!=""?<Pred>{errorpasswordc}</Pred>:""}
             </Grid>
             <Grid item xs={12}>
-            <TextField
-             variant="outlined"
-             required
-             fullWidth
-            id="datetime-local"
-            label="date naissance"
-            type="date"
-            defaultValue="2017-05-24"
-            value={values.date_naissance}
-            format="yyyy/MM/dd"
-            onChange={handleChange('date_naissance')}
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-         />
+              {errordate==""?
+               <TextField
+               variant="outlined"
+               required
+               fullWidth
+              id="datetime-local"
+              label="date naissance"
+              type="date"
+              defaultValue="2017/05/24"
+              value={values.date_naissance}
+              format="yyyy/MM/dd"
+              onChange={handleChange('date_naissance')}
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+           />:
+           <TextField
+           error
+           variant="outlined"
+           required
+           fullWidth
+          id="datetime-local"
+          label="date naissance"
+          type="date"
+          defaultValue="2017-05-24"
+          value={values.date_naissance}
+          format="yyyy/MM/dd"
+          helperText={errordate}
+          onChange={handleChange('date_naissance')}
+          className={classes.textField}
+          InputLabelProps={{
+            shrink: true,
+          }}
+           />
+            }
+           
             <Grid item xs={12}>
-            <FormControl className={classes.combo}
+            {errorpays==""?
+         <FormControl className={classes.combo}
             variant="outlined"
              required
              fullWidth>
@@ -270,9 +519,9 @@ function getData()
         <Select
           labelId="demo-controlled-open-select-label"
           id="demo-controlled-open-select"
-          open={open}
-          onClose={handleClose}
-          onOpen={handleOpen}
+          open={open1}
+          onClose={handleClose1}
+          onOpen={handleOpen1}
           onChange={handleChange('pays')}
         >
           {data.map((py)=>{
@@ -283,7 +532,32 @@ function getData()
           })}
          
         </Select>
-      </FormControl>
+      </FormControl>:
+       <FormControl className={classes.combo}
+       variant="outlined"
+        required
+        fullWidth>
+   <InputLabel id="demo-controlled-open-select-label">pays</InputLabel>
+   <Select
+   error
+     labelId="demo-controlled-open-select-label"
+     id="demo-controlled-open-select"
+     open={open1}
+     onClose={handleClose1}
+     onOpen={handleOpen1}
+     onChange={handleChange('pays')}
+   >
+     {data.map((py)=>{
+       return(
+         <MenuItem value={py.name}>{py.name}</MenuItem>
+       )
+           
+     })}
+    
+   </Select>
+ </FormControl>
+           }
+           {errorpays!=""?<Pred>{errorpays}</Pred>:""}
           </Grid>
         </Grid>
             <Grid item xs={12}>
@@ -293,18 +567,29 @@ function getData()
               />
             </Grid>
           </Grid>
+          {loadin==false?
           <Button
-            type="button"
+            type="submit"
             fullWidth
             variant="contained"
-            color="secondary"
             className={classes.submit}
-            onClick={()=>{
-              check()
+            onClick={(e)=>{
+              handlesubmit(e)
             }}
           >
-           creer compte
-          </Button>
+         Creer Compte
+          </Button>:
+           <Button
+           disabled
+           type="submit"
+           fullWidth
+           variant="contained"
+           className={classes.submit}
+           
+         > 
+          <CircularProgress color="secondary" />
+         </Button>
+          }
           <Grid container justify="flex-end" mb={10}>
             <Grid item>
               <Link to="/CONNECTER" className="conn">
@@ -313,7 +598,14 @@ function getData()
             </Grid>
           </Grid>
         </form>
+        
       </div>
     </Container>
   );
 }
+
+const Pred= styled.p `
+    color:red;
+    font-size: 0.9em;
+    padding-left:5px;
+`;
