@@ -1,3 +1,15 @@
 .d-block {
     height: 350px;
 }
+
+li.active {
+    background-color: palevioletred;
+}
+
+span.carousel-control-prev-icon {
+    color: palevioletred!important;
+}
+
+.imgSlack {
+    width: 100;
+}

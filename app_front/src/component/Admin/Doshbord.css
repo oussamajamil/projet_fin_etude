@@ -1,0 +1,16 @@
+.dosh {
+    margin-top: 5px;
+    width: 200px;
+    display: fixed;
+    background: #e7edf5;
+    height: 600px;
+    margin-left: 2px;
+}
+
+.listdosh {
+    list-style: none;
+}
+
+.listdosh li {
+    margin-top: 30px;
+}

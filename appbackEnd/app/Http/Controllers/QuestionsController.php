@@ -39,7 +39,7 @@ class QuestionsController extends Controller
         $input = $request->all(); 
         if($input['Qustion']=="")
         {
-            return response()->json(['error','tapez votre question'],200);
+            return response()->json(['error' =>'tapez votre question'],200);
         }
         else
         {
@@ -51,10 +51,31 @@ class QuestionsController extends Controller
                       'user_id'=>$user[0]->id,
                 ]
                 );
-                return response()->json(['message','questions Bien Ajouter'],200);
+                return response()->json(['message'=>'questions Bien Ajouter'],200);
         }
     }
 
+
+    public function getQestion()
+    {
+        $nombre=DB::table('questions')->where('accepte','oui')->count();
+        if($nombre>0)
+        {
+            $questions = DB::table('questions')
+            ->join('users', 'users.id', '=', 'questions.user_id')
+            ->select('questions.*', 'users.user_name','users.nom','users.prenom','users.photo')
+            ->where('accepte','oui')
+            ->get();
+            return response()->json(['Data'=>$questions],200);
+        }
+        else
+        {
+            return response()->json(['message'=>'auccun message accepter'],200);
+        }
+
+        
+
+    }
     /**
      * Display the specified resource.
      *

@@ -100,7 +100,7 @@ class invitiController extends Controller
         else
         {
             return response()->json([
-                'data' =>  $projet,
+                'data' =>  $projet,'count'=>($projet)
               ], 200);
         }
     }

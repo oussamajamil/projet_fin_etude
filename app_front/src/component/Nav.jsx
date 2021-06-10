@@ -1,11 +1,10 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect,useState} from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './nav.css';
 import Navbar from 'react-bootstrap/Navbar';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
-import Dropdown from 'react-bootstrap/Dropdown';
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -20,14 +19,11 @@ import axios from 'axios';
 import Cookies from  'js-cookie';
 import AddIcon from '@material-ui/icons/Add';
 import {Hommes} from '../redux/actions/UserActions';
-import { useDispatch } from 'react-redux';
-import {NavDropdown,Nav,FormControl,Button,Form,DropdownButton} from 'react-bootstrap';
+import {useDispatch } from 'react-redux' ; 
+import Logo from './slideHomme/OJ.png';
+import {Nav,Button} from 'react-bootstrap';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-  useParams,
-  Link,
 } from "react-router-dom";
 import { makeStyles, withStyles } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     '& > *': {
       margin: theme.spacing(1),
+      width: theme.spacing(7),
+      height: theme.spacing(7),
     },
   },
   button: {
@@ -62,15 +60,17 @@ const StyledMenu = withStyles({
   />
 ));
 function NavP() {
+  const [data,setData]=useState({})
   const dispatch=useDispatch();
   useEffect(() => {
+   if(localStorage.getItem('token'))
     getData();
   },[]);
-  const getData=async ()=>{
+  const getData=()=>{
         let token='Bearer '+localStorage.getItem('token');
         const frm=new FormData();
         frm.append('user_name',Cookies.get('user_name'))
-       await axios({
+      axios({
             method: "POST",
             url: '/getUser_Connected',
             data: frm,
@@ -79,6 +79,7 @@ function NavP() {
                      },
             }).then(res=>{
                 dispatch(Hommes(res.data.data[0]));
+                setData(res.data.data[0]);
             }).catch(errres=>{
                 console.log(errres);
             })
@@ -111,30 +112,21 @@ function NavP() {
     return (
       <Router>
         <div>
-         <Navbar   expand="lg" className="ng">
-        <Navbar.Brand href="">Journal</Navbar.Brand>
+         <Navbar expand="lg" className="ng" style={{width:'100%!important'}}>
+        <Navbar.Brand href="/"><img src={Logo} alt=""/></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="" > Homme</Nav.Link>
+            <Nav.Link href="/Homme" > Découvrir</Nav.Link>
             <Nav.Link href="/Questions">Question</Nav.Link>
-            <Nav.Link href="/Projets">Projets</Nav.Link>
-             {user==null?
-             user1==null?""
-               :
-              <Button
-              variant="contained"
-              
-              className={classes.button}
-              startIcon={<AddIcon />}
-            >
-              creer Votre projet
-            </Button>:
+            <Nav.Link href="/AllProjet">Projets</Nav.Link>
+             {user==null && user1==null?
+              "":
             <Button
             variant="contained"
-            
+            href="/Confirmation"
             className={classes.button}
-            startIcon={<AddIcon />}
+            startIcon={<AddIcon/>}
           >
             creer Votre projet
           </Button>
@@ -219,7 +211,9 @@ function NavP() {
          </ListItemLink>
        </StyledMenu>
      </div>
-           <Avatar className={classes.img_slage}>{user1.prenom.charAt(0).toUpperCase()}{user1.nom.charAt(0).toUpperCase()}</Avatar>
+           <Avatar className={classes.img_slage} src={user1 && user1.photo!="images/user.png"?"http://127.0.0.1:8000/"+user1.photo:user && user.photo!="images/user.png"?"http://127.0.0.1:8000/"+user.photo:""}>
+              {user1 && user1.photo=="images/user.png"?user1.prenom.charAt(0).toUpperCase():user && user.photo=="images/user.png"?user.prenom.charAt(0).toUpperCase():""}
+            </Avatar>
           </Nav>
           :<Nav>
           <div>
@@ -258,7 +252,9 @@ function NavP() {
         </ListItemLink>
       </StyledMenu>
     </div>
-          <Avatar className={classes.img_slage}>{user.prenom.charAt(0).toUpperCase()}{user.nom.charAt(0).toUpperCase()}</Avatar>
+       <Avatar className={classes.img_slage} src={data.photo!="images/user.png"?"http://127.0.0.1:8000/"+data.photo:""}>
+              {data.photo=="images/user.png"?data.prenom.charAt(0).toUpperCase()+data.nom.charAt(0).toUpperCase():""}
+            </Avatar>
          </Nav>
              
          }
@@ -271,33 +267,3 @@ function NavP() {
     )
 }
 export default NavP
-const BtnLog= styled.div `
-     margin-right:20px;
-`;
-const Astyle= styled.a `
-     text-decoration: none;
-     color:#000;
-  &::hover
-
-`;
-const Divma= styled.div `
-    margin-left:20px;
-    @media(max-width: 768px) {
-      margin-left:3px;
-    }
-`;
-const W= styled.div `
-   width:70px;
-   @media(max-width: 768px) {
-    marginleft:0px;
-
-  }
-`;
-const BtnConnecter= styled.button `
-background:red;
-`;
-
-const flexAt= styled.p `
-position:relative;
-top:10px;
-`;

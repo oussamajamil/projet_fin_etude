@@ -22,9 +22,11 @@
         "react-client-session": "0.0.7",
         "react-dom": "^17.0.2",
         "react-intl-tel-input": "^8.0.4",
+        "react-number-format": "^4.5.5",
         "react-phone-input": "^1.2.1",
         "react-phone-input-2": "^2.14.0",
         "react-phone-input-material-ui": "^2.14.1",
+        "react-player": "^2.9.0",
         "react-redux": "^7.2.4",
         "react-router": "^5.2.0",
         "react-router-dom": "^5.2.0",
@@ -58,5 +60,10 @@
             "last 1 safari version"
         ]
     },
-    "devDependencies": {}
+    "devDependencies": {
+        "envify": "^4.1.0",
+        "terser": "^5.7.0",
+        "terser-brunch": "^4.0.0",
+        "uglifyify": "^5.0.2"
+    }
 }

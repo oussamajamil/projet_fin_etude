@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Charm&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap');
+.ThoProjets {
+    margin-top: 20px!important;
+}
+
+.contthe {
+    margin-top: 30px!important;
+}
+
+.btnEnv1 {
+    width: 300px!important;
+    margin-top: 10px!important;
+    margin-right: 20px!important;
+}
+
+.btnYoutube {
+    width: 350px;
+}
+
+.linkPro {
+    width: 350px!important;
+    margin-left: 150px!important;
+}
+
+.upld {
+    display: none;
+}
+
+.btnphotoinfor {
+    display: none;
+}
+
+.btinfors {
+    margin-left: 200px!important;
+    margin-top: 20px!important;
+    color: palevioletred!important;
+}
+
+.mediah {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: palevioletred!important;
+}
+
+.btnphoto {
+    margin-top: 10px!important;
+    margin-left: 12px!important;
+    background-color: palevioletred!important;
+}
+
+.spanmed {
+    font-family: 'Charm', cursive;
+    font-size: 0.7em!important;
+    color: rgb(143, 141, 141)!important;
+}
+
+.textphoto {
+    margin-top: 15px;
+    margin-left: 10px;
+    font-family: 'Charm', cursive;
+}
+
+.d1 {
+    width: 350px;
+    background-color: #000;
+    height: 100px;
+    margin: 20px;
+}
+
+.rowphoto {
+    display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+    .linkPro {
+        width: 350px!important;
+        margin-top: 15px!important;
+        margin-left: -3px!important;
+    }
+    .btinfors {
+        margin-left: 0px!important;
+        margin-top: 0px!important;
+        color: palevioletred!important;
+    }
+}

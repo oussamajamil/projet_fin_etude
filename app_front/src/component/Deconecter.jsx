@@ -8,8 +8,11 @@ function Deconecter() {
     const dispatch=useDispatch();
     let history = useHistory();
     useEffect(() => {
-        
-    if(!localStorage.getItem('token'))
+        dec()
+    },[]);
+    function dec()
+    {
+        if(!localStorage.getItem('token'))
     {
         history.push('/CONNECTER');
     }
@@ -23,7 +26,7 @@ function Deconecter() {
                          "Authorization":token
                      },
             }).then(res=>{
-             dispatch(Hommes(null));
+                dispatch(Hommes(null));
                 history.push('/CONNECTER');
                 localStorage.removeItem('token');
                 Cookies.remove('user_name');
@@ -32,8 +35,7 @@ function Deconecter() {
                 console.log("error");
             })
     }
-      
-    },[]);
+    }
     return (
         <div>
         </div>

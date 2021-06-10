@@ -1,0 +1,15 @@
+.MuiStepIcon-root.MuiStepIcon-active {
+    color: palevioletred !important;
+}
+
+.MuiStepIcon-root.MuiStepIcon-completed {
+    color: palevioletred !important;
+}
+
+.taillebottoninput {
+    margin-top: 20px!important;
+}
+
+.cardrechargabl {
+    margin-top: 30px
+}

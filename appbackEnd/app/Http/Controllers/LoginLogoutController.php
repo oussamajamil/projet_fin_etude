@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use File;
 use Sentinel;
 use Reminder;
 class LoginLogoutController extends Controller
@@ -144,6 +145,30 @@ class LoginLogoutController extends Controller
                     {
                         return response()->json(['connection'=>'erreur de systeme'],200); 
                     }
+        }
+        public function updatephotousers(Request $request,$id) 
+        {
+            $imageSupprimer=DB::table('users')->select('photo')->where('id',$id)->get();
+            if($imageSupprimer!="images/user.png")
+            {
+                // File::delete($imageSupprimer);
+            }
+            $file = $request->file('photo');
+            //$image=$file->getClientOriginalName();
+            $image = time().'users'.'.'.$file->getClientOriginalExtension();
+            $destinationPath ='assets/users/';
+            $file->move($destinationPath,$image);
+            $img=$destinationPath.$image;
+            try
+            {
+                DB::table('users')->where('id',$id)->update(['photo'=>$img]);
+                return response()->json(['message'=>$img],200);  
+            }
+            catch(exception $ex)
+            {
+                return response()->json(['error'=>$ex->getMessage()],200); 
+            }
+        
         }
 
  public function login(Request $r)

@@ -64,7 +64,6 @@ export default function Siup() {
     setOpen1(true);
   };
   const classes = useStyles();
-  const [pays,setPays]=useState([]);
   const [values, setValues] = React.useState({
     nom:'',
     password: '',
@@ -103,7 +102,7 @@ export default function Siup() {
    async function handlesubmit(e)
   {
     e.preventDefault();
-    if(values.nom!=="" && values.prenom!=="" && values.password!=="" && values.c_password!=="" && values.email!=="" && values.pays!=="" && values.date_naissance && values.user_name &&validateEmail(values.email) && values.password==values.c_password )
+    if(values.nom!=="" && values.prenom!=="" && values.password!=="" && values.c_password!=="" && values.email!=="" && values.pays!=="" && values.date_naissance && values.user_name &&validateEmail(values.email) && values.password==values.c_password  &&parseInt(values.password.length)>8 &&parseInt(values.c_password.length)>8 )
     {
       setloadin(true);
       const dt=new FormData();
@@ -125,10 +124,24 @@ export default function Siup() {
           if(res.data.email)
           {
             seterroremail('email deja exists');
+            seterrornom('');
+            seterrorprenom('');
+            seterroruser_name('');
+            seterrorpassword('');
+            seterrorpasswordc('');
+            seterrordate('');
+            seterrorpays('');
           }
           if(res.data.user_name)
           {
             seterroruser_name('user name déja exists');
+            seterroremail('');
+            seterrornom('');
+            seterrorprenom('');
+            seterrorpassword('');
+            seterrorpasswordc('');
+            seterrordate('');
+            seterrorpays('');
           }
          if(res.data.Token)
           {
@@ -137,41 +150,41 @@ export default function Siup() {
             Cookies.set('email',res.data.Data,new Date().getTime() +  3* 60 * 1000);
           }
       }).catch(err=>{
-        console.log(err);
+        history.push('/error');
       })
         setloadin(false);
     }
     else
     {
-    if(values.nom==="")
+    if(values.nom=="")
     {
       seterrornom("tapez votre nom");
     }
-    if(values.nom!=="")
+    if(values.nom!="")
     {
       seterrornom('');
     }
-    if(values.prenom==="")
+    if(values.prenom=="")
     {
       seterrorprenom("tapez votre prenom");
     }
-    if(values.prenom!=="")
+    if(values.prenom!="")
     {
       seterrorprenom('');
     }
-    if(values.user_name==="")
+    if(values.user_name=="")
     {
       seterroruser_name("tapez votre user name");
     }
-    if(values.user_name!=="")
+    if(values.user_name!="")
     {
       seterroruser_name('');
     }
-    if(values.email==="")
+    if(values.email=="")
     {
       seterroremail("tapez votre email ");
     }
-    if(values.email!=="")
+    if(values.emai!="")
     {
       if(validateEmail(values.email))
       {
@@ -185,23 +198,24 @@ export default function Siup() {
       
     }
     
-    if(values.password.length<8)
+    if(parseInt(values.password.length)<8)
     {
       seterrorpassword('tapez mode passe qui contient >8')
+      seterrorpasswordc('');
     }
-    if(values.password.length>8)
+    if(parseInt(values.password.length)>8)
     {
       seterrorpassword('')
     }
-    if(values.c_password.length<8)
+    if(parseInt(values.c_password.length)<8)
     {
       seterrorpasswordc('tapez mode passe qui contient >8')
     }
-    if(values.c_password.length>8)
+    if(parseInt(values.c_password.length)>8)
     {
       if(values.c_password==values.password)
       {
-        seterrorpasswordc('')
+        seterrorpasswordc('');
       }
       else
       {
@@ -223,7 +237,7 @@ export default function Siup() {
     }
     if(values.pays!=="")
     {
-      seterrorpays('')
+      seterrorpays('');
     }
   }
   }

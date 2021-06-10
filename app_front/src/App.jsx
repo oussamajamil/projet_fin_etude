@@ -11,16 +11,18 @@ import ActiverCompte from './component/ActiverCompte';
 import Deconecter from './component/Deconecter';
 import NotFound from './component/NotFound';
 import Qustion from './component/Question/Qustion';
+import Confirmation from './component/Confirmation';
+import CreationSeccus from './component/CreationSeccus';
+import Doshbord from './component/Admin/Doshbord';
+import HowItWork from './component/HowItWork';
+import DetailleProject from './component/DetailleProject';
+
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Redirect,
 } from "react-router-dom";
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Hommes } from './redux/actions/UserActions'
-import { useDispatch } from 'react-redux'
 
 function App() {
   return (
@@ -42,9 +44,16 @@ function App() {
          <Route exact path = "/Deconecter" component ={Deconecter}/>
          <Route exact path = "/Profil" component ={Profil}/>
          <Route exact path = "/Questions" component ={Qustion}/>
+         <Route exact path = "/Confirmation" component ={Confirmation}/>
+         <Route exact path = "/projetsSecuss" component ={CreationSeccus}/>
+         <Route exact path = "/Seccusprojets"  component={ AllProjet }/>
+         <Route exact path = "/doshbord"  component={ Doshbord }/>
+         <Route exact path = "/Homme"  component={ HowItWork }/>
+         <Route exact path = "/detailleProjet/:nomProjet"  component={ DetailleProject }/>
+         
          <Route  component ={NotFound}/>
-
         </Switch>
+        
         </div>
          </Router>
          

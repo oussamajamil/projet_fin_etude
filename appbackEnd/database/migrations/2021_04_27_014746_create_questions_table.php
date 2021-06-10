@@ -21,7 +21,7 @@ class CreateQuestionsTable extends Migration
             $table->enum('accepte',['oui','non'])->default('non');
             $table->foreign('user_id')
             ->references('id')->
-            on('users')->onUpdate('cascade'); 
+            on('users')->onUpdate('cascade')->onDelete('cascade'); 
             $table->timestamps();
         });
     }

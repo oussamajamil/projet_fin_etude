@@ -1,5 +1,5 @@
 .ng {
-    background-color: papayawhip;
+    background-color: #e7edf5;
 }
 
 .dropdown-toggle {
@@ -17,8 +17,4 @@
 
 .btnConnec:hover {
     background-color: palevioletred!important;
-}
-
-@media only screen and (max-width: 600px) {
-    body {}
 }

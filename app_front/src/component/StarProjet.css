@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Farsan&family=Indie+Flower&display=swap');
+.formControl {
+    margin-top: 20px;
+    width: 400px!important;
+}
+
+.formControl1 {
+    width: 400px!important;
+    margin-left: 150px!important;
+}
+
+.selectEmpty {
+    margin: 30px;
+}
+
+.multiligne {
+    width: 400px!important;
+}
+
+.hed {
+    margin-left: 150px;
+    font-family: 'Farsan', cursive;
+}
+
+.infosr {
+    font-size: 0.8em;
+}
+
+.errhed {
+    margin-left: 150px;
+    font-size: 0.8em;
+    color: red;
+}
+
+.headSr {
+    font-family: 'Farsan', cursive;
+}
+
+.btnEnv1 {
+    margin-top: 10px!important;
+}
+
+@media only screen and (max-width: 600px) {
+    .multiligne {
+        width: 400px!important;
+    }
+    .formControl1 {
+        margin-left: -5px!important;
+    }
+    .hed {
+        margin-left: -5px;
+    }
+}
+
+@media (min-width: 600px) and (max-width:1024px) {
+    .multiligne {
+        width: 450px!important;
+    }
+    .formControl1 {
+        margin-left: -3px!important;
+    }
+    .hed {
+        margin-left: -5px;
+    }
+}

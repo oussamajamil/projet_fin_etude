@@ -23,10 +23,9 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import Cookies from  'js-cookie';
-import { Router } from 'react-router';
 import {Hommes, login} from '../redux/actions/UserActions';
 import {useDispatch, useSelector} from 'react-redux';
-import { useParams,useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Alert from 'react-bootstrap/Alert'
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -45,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	submit: {
 	  margin: theme.spacing(3, 0, 2),
-    backgroundColor: 'transparnt',
+    backgroundColor: 'palevioletred',
 	},
   lg1:
   {
@@ -56,14 +55,14 @@ const useStyles = makeStyles((theme) => ({
  
 function Login() {
   useEffect(() => {
+    if(!Cookies.get('user_name'))
+    {
+      localStorage.removeItem("token");
+    }
     if(localStorage.getItem('token'))
     {
       history.push('/');
-    }
-      Cookies.remove('user_name');
-      localStorage.removeItem('token');
-  
-    
+    }  
   })
   
   const dispatch=useDispatch();
@@ -106,7 +105,7 @@ function Login() {
 
   let history = useHistory();
 let connect=useSelector((state)=>state.conn.loginConn);
-  const handlesubmit=(e)=>
+  const handlesubmit=async(e)=>
   { e.preventDefault();
     if(validateEmail(log.email) && log.password!="" && log.email!="")
     {
@@ -114,7 +113,7 @@ let connect=useSelector((state)=>state.conn.loginConn);
       const bodyFormData=new FormData();
       bodyFormData.append('email',log.email);
       bodyFormData.append('password',log.password);
-      axios({
+      await axios({
       method: "post",
       url: "/Login",
       data: bodyFormData,
@@ -156,7 +155,7 @@ let connect=useSelector((state)=>state.conn.loginConn);
            }
    
       }).catch(err=>{
-        console.log(err);
+        history.push('/error');
       })
      srt(false);
     }
@@ -248,7 +247,7 @@ let connect=useSelector((state)=>state.conn.loginConn);
             onChange={handleChange('email')}
              />:
              <TextField
-             error
+            error
             variant="outlined"
             margin="normal"
             required

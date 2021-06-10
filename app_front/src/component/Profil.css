@@ -1,0 +1,174 @@
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap');
+    .fb-profile-block {
+        margin: auto;
+        position: relative;
+        width: 100%;
+    }
+    
+    .cover-container {
+        background: #ff6e7f;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to bottom, #bfe9ff, #ff6e7f);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to bottom, #bfe9ff, #ff6e7f);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    }
+    
+    .tableprojets td,
+    .tableprojets th {
+        text-align: center;
+        align-items: center;
+    }
+    
+    #titrenbprojet {
+        font-family: 'Roboto Slab', serif;
+    }
+    
+    .fb-profile-block-thumb {
+        display: block;
+        height: 315px;
+        overflow: hidden;
+        position: relative;
+        text-decoration: none;
+    }
+    
+    .fb-profile-block-menu {
+        border: 1px solid #d3d6db;
+        border-radius: 0 0 3px 3px;
+    }
+    
+    .profile-img {
+        bottom: 15px;
+        box-shadow: none;
+        display: block;
+        left: 15px;
+        padding: 1px;
+        position: absolute;
+        height: 160px;
+        width: 160px;
+        background: rgba(0, 0, 0, 0.3) none repeat scroll 0 0;
+        z-index: 9;
+    }
+    
+    .styleprojetsImageupload {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .imageProfil {
+        background-color: #FFF;
+        border-radius: 2px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.07);
+        height: 158px;
+        padding: 5px;
+        width: 158px;
+        align-items: center;
+    }
+    
+    @media screen and (max-width: 600px) {
+        .r1profil {
+            margin-left: 220px!important;
+            width: 300px!important;
+            height: 200px!important;
+            background-color: #fffde7;
+            position: relative;
+            top: -120px!important;
+            box-shadow: 10px 20px 50px grey;
+            text-align: center;
+            align-items: center;
+        }
+    }
+    
+    .r1profil {
+        margin-left: 270px;
+        width: 800px;
+        height: 150px;
+        background-color: #fffde7;
+        position: relative;
+        top: -130px;
+        box-shadow: 10px 20px 50px grey;
+        text-align: center;
+    }
+    
+    .profile-name {
+        bottom: 60px;
+        left: 200px;
+        position: absolute;
+    }
+    
+    .profile-name h2 {
+        color: #fff;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 30px;
+        max-width: 275px;
+        position: relative;
+        text-transform: uppercase;
+        margin-left: 80px;
+    }
+    
+    .fb-profile-block-menu {
+        height: 44px;
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+    
+    .block-menu {
+        clear: right;
+        padding-left: 205px;
+    }
+    
+    .block-menu ul {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .block-menu ul li {
+        display: inline-block;
+    }
+    
+    .profilcontent {
+        margin-top: 20px!important;
+    }
+    
+    .succ1 {
+        color: #64dd17!important;
+    }
+    
+    .attand1 {
+        color: #ffeb3b!important;
+    }
+    
+    .refuser1 {
+        color: red!important;
+    }
+    
+    .btnimagesusers {
+        position: Relative;
+        top: -45px;
+        left: 119px;
+    }
+    
+    .btnimagesusers:hover {}
+    
+    .block-menu ul li a {
+        border-right: 1px solid #e9eaed;
+        float: left;
+        font-size: 14px;
+        font-weight: bold;
+        height: 42px;
+        line-height: 3.0;
+        padding: 0 17px;
+        position: relative;
+        vertical-align: middle;
+        white-space: nowrap;
+        color: #4b4f56;
+        text-transform: capitalize;
+    }
+    
+    .block-menu ul li:first-child a {
+        border-left: 1px solid #e9eaed;
+    }
+    
+    @media only screen and (max-width: 600px) and (min-width: 400px) {}

@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
+.s-icon {
+    color: #f50057;
+    border: 1px solid #f50057;
+    width: 50px!important;
+    height: 50px!important;
+    size: 2000px!important;
+    border-radius: 50%;
+}
+
+.fontprojetseccus {
+    position: relative;
+    font-family: 'Titillium Web', sans-serif;
+    margin-top: 20px;
+    font-size: 50px;
+}
+
+@media only screen and (max-width: 600px) and (min-width: 400px) {
+    .bodyicons {
+        margin-left: 100px!important;
+        margin-top: 10px!important;
+    }
+}
+
+.btnCreerProjetHomme {
+    margin-top: 35px;
+}

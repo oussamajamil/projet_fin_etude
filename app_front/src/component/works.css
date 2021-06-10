@@ -1,0 +1,84 @@
+.ppropsAmal {
+    font-size: 40px;
+    margin-top: 10px;
+    font-family: 'Titillium Web', sans-serif;
+    color: #f50057;
+}
+
+.papropsttxt {
+    text-align: center;
+    font-size: 30px;
+}
+
+.fontdivhomitwork {
+    font-size: 80px!important;
+    color: #f50057;
+    align-items: center;
+    justify-content: center;
+    margin-left: 100px;
+    margin-bottom: 20px;
+}
+
+.card {
+    width: 20rem;
+}
+
+.card:hover {
+    box-shadow: 5px 10px 20px 1px rgba(0, 0, 0, 0.253) !important;
+}
+
+.card-body {
+    padding: 3rem 0 !important;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    padding: 0.4rem 1.9rem;
+}
+
+.container-fluid.row {
+    padding-top: 6rem;
+}
+
+.cntndivhowitworks {
+    display: flex;
+    flex-direction: column;
+}
+
+.spanparahowitwork {
+    justify-content: center;
+}
+
+.cardoussama {
+    background-color: #ffeb3b;
+}
+
+.fonticondslow {
+    width: 300px!important;
+    font-size: 40px!important;
+    color: #f50057!important;
+}
+
+.footr1howitworks {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+@media only screen and (max-width: 600px) and (min-width: 400px) {
+    .ppropsAmal {
+        font-size: 20px;
+    }
+    .papropsttxt {
+        text-align: center;
+        font-size: 15px;
+    }
+    .fontdivhomitwork {
+        margin-left: 200px!important;
+    }
+    .cardoussama {
+        margin-top: 20px;
+    }
+}
