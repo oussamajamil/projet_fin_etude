@@ -109,7 +109,7 @@ function ThoProjets(props) {
           incre();
          
         }}>Ajouter des information a votre projets</button>:
-        <button disabled type="button" className="btn btn-outline-success" onClick={()=>{
+        <button disabled type="button" style={{marginRight:'5px'}} className="btn btn-outline-success" onClick={()=>{
           incre();
         }}>Ajouter des information a votre projets</button>
         }

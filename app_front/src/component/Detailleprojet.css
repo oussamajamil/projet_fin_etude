@@ -1,3 +1,38 @@
 .urlYoutubeprojet {
-    width: 600px!important;
+    width: 1000px;
+    height: 380px;
+}
+
+.rowyoutubetitre {
+    display: flex;
+    flex-direction: column;
+}
+
+.titreProjrtslance {
+    margin-left: 210px;
+    font-size: 50px;
+    color: rgb(185, 10, 112);
+    align-items: center;
+    justify-content: center;
+}
+
+.imageprojetdata {
+    margin-top: 50px!important;
+    margin-left: 150px;
+}
+
+@media only screen and (max-width: 600px) and (min-width: 300px) {
+    .urlYoutubeprojet {
+        width: 100%!important;
+        height: 290px!important;
+    }
+    .titreProjrtslance {
+        margin-left: 70px!important;
+        font-size: 30px;
+    }
+    .imageprojetdata {
+        margin-top: 5px!important;
+        width: 99%!important;
+        margin-left: 0px!important;
+    }
 }

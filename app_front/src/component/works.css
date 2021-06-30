@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Stint+Ultra+Condensed&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Stint+Ultra+Condensed&display=swap');
 .ppropsAmal {
     font-size: 40px;
     margin-top: 10px;
-    font-family: 'Titillium Web', sans-serif;
+    font-family: 'Arvo', serif;
+    font-family: 'Stint Ultra Condensed', cursive;
+    font-size: 60px;
     color: #f50057;
 }
 
@@ -17,6 +21,75 @@
     justify-content: center;
     margin-left: 100px;
     margin-bottom: 20px;
+}
+
+.h5howitwork {
+    font-family: 'Arvo', serif;
+    font-family: 'Stint Ultra Condensed', cursive;
+    font-size: 30px;
+    margin-left: 20px;
+}
+
+.h2Amal {
+    font-family: 'Arvo', serif;
+    font-family: 'Stint Ultra Condensed', cursive;
+    font-size: 60px;
+    color: #f50057;
+}
+
+.btnprojet {
+    margin-left: 400px;
+}
+
+.btnquest {
+    font-family: 'Arvo', serif;
+    font-family: 'Stint Ultra Condensed', cursive;
+    font-size: 30px;
+    margin-left: 90px;
+    margin-top: 90px;
+}
+
+.btnHom {
+    font-family: 'Arvo', serif;
+    font-family: 'Stint Ultra Condensed', cursive;
+    font-size: 30px;
+    margin-left: -225px;
+    margin-top: 145px;
+}
+
+#txtimageh4 {
+    position: absolute;
+    top: 245px!important;
+    margin-left: 30px;
+    color: #ff80ab;
+    font-family: 'Arvo', serif;
+    font-family: 'Stint Ultra Condensed', cursive;
+    font-size: 37px;
+}
+
+#reseauh3 {
+    position: absolute;
+    margin-top: 250px;
+    margin-left: 800px;
+    font-family: 'Arvo', serif;
+    font-family: 'Stint Ultra Condensed', cursive;
+    font-size: 50px;
+}
+
+.btncontactez {
+    font-family: 'Arvo', serif;
+    font-family: 'Stint Ultra Condensed', cursive;
+    font-size: 30px;
+    margin-left: -285px;
+    margin-top: 197px;
+}
+
+.btnammal {
+    font-family: 'Arvo', serif;
+    font-family: 'Stint Ultra Condensed', cursive;
+    font-size: 30px;
+    margin-left: -110px;
+    margin-top: 249px;
 }
 
 .card {
@@ -50,7 +123,7 @@
 }
 
 .cardoussama {
-    background-color: #ffeb3b;
+    background-color: #cab818;
 }
 
 .fonticondslow {
@@ -59,17 +132,12 @@
     color: #f50057!important;
 }
 
-.footr1howitworks {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-@media only screen and (max-width: 600px) and (min-width: 400px) {
+@media only screen and (max-width: 600px) and (min-width: 300px) {
     .ppropsAmal {
         font-size: 20px;
+    }
+    .footr1howitworks {
+        font-size: 15px;
     }
     .papropsttxt {
         text-align: center;

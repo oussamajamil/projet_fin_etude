@@ -11,12 +11,18 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import EmojiObjectsTwoToneIcon from '@material-ui/icons/EmojiObjectsTwoTone';
 import Grid from '@material-ui/core/Grid';
 import { Redirect, useHistory } from 'react-router';
+import {admin} from '../redux/actions/UserActions';
+import {useDispatch, useSelector} from 'react-redux';
 import './Homme.css'; 
 import axios from 'axios';
+import Footer from './Footer';
 function Homme() {
+ 
   let history=useHistory();
+  const dispatch=useDispatch();
   const[countPr,setcountPr]=React.useState({})
    useEffect(() => {
+    dispatch(admin(false));
     getCountData();
    },[]);
    const [loadingCount,setloadingCount]=React.useState(true);
@@ -111,6 +117,7 @@ function Homme() {
                   
                 </Row>
             </Container> 
+            <Footer/>
         </div>
     )
 }

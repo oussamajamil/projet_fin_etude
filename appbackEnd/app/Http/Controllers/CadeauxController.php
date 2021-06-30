@@ -37,11 +37,12 @@ class CadeauxController extends Controller
      */
     public function store(Request $request)
     {
+        $id=DB::table('projets')->select('id')->where('nom_projet',$request->nom_projet)->first();
         try
         {
             DB::table('cadeauxes')->insert(
                 [
-                    'projet_id'=>$request->projet_id,
+                    'projet_id'=>$id->id,
                     'titre'=>$request->titre,
                     'description'=>$request->description,
                     'Rechargeable'=>$request->Rechargeable,
@@ -52,7 +53,7 @@ class CadeauxController extends Controller
         }
         catch(Exception $ex)
         {
-            return response()->json(['error'=>$ex->getMessage()],200);   
+            return response()->json(['error'=>$ex->getMessage()],400);   
         }
     }
 
@@ -73,7 +74,7 @@ class CadeauxController extends Controller
             }
             else
             {
-                return response()->json(['data',$cad],200);
+                return response()->json(['cadeaux',$cad],200);
             }
         }
         catch(Exception $ex)
@@ -112,8 +113,8 @@ class CadeauxController extends Controller
      * @param  \App\Models\cadeaux  $cadeaux
      * @return \Illuminate\Http\Response
      */
-    public function destroy(cadeaux $cadeaux)
+    public function destroy($nomprojet)
     {
-        //
+        
     }
 }

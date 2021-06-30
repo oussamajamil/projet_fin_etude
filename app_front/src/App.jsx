@@ -13,10 +13,11 @@ import NotFound from './component/NotFound';
 import Qustion from './component/Question/Qustion';
 import Confirmation from './component/Confirmation';
 import CreationSeccus from './component/CreationSeccus';
-import Doshbord from './component/Admin/Doshbord';
+import DashbordAdmin from './component/Admin/Doshbord';
 import HowItWork from './component/HowItWork';
 import DetailleProject from './component/DetailleProject';
-
+import {useSelector} from 'react-redux';
+import Footer from './component/Footer';
 import {
     BrowserRouter as Router,
     Switch,
@@ -25,12 +26,14 @@ import {
 } from "react-router-dom";
 
 function App() {
+    let user=useSelector((state)=>state.admin.admin);
+    
   return (
     
        
         <Router>
         <div className = "App" >
-        <Nav className = "navpp" />
+      {user==false? <Nav className = "navpp" />:""}
         <Switch>
         <Route exact path = "/">
             <Homme/>
@@ -47,16 +50,16 @@ function App() {
          <Route exact path = "/Confirmation" component ={Confirmation}/>
          <Route exact path = "/projetsSecuss" component ={CreationSeccus}/>
          <Route exact path = "/Seccusprojets"  component={ AllProjet }/>
-         <Route exact path = "/doshbord"  component={ Doshbord }/>
+         <Route exact path = "/doshbordAdmin"  component={ DashbordAdmin }/>
          <Route exact path = "/Homme"  component={ HowItWork }/>
          <Route exact path = "/detailleProjet/:nomProjet"  component={ DetailleProject }/>
          
          <Route  component ={NotFound}/>
         </Switch>
         
-        </div>
+        </div> 
          </Router>
-         
+              
     );
     
 }

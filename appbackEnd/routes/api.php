@@ -23,8 +23,11 @@ Route::group([ 'middleware' =>'auth:api'], function(){
     Route::get('/invi_projet/{id}', 'App\Http\Controllers\users\invitiController@show');//t9RA INVI 3la hsab projet
     Route::get('/monProjet', 'App\Http\Controllers\users\projetController@monProjets');
     Route::post('like/{idProjet}','App\Http\Controllers\users\likeController@store');
+    // projet Accepte + projet Refuser
     
-
+    
+    
+    Route::post('/projet', 'App\Http\Controllers\users\projetController@store');
     Route::get('show_like/{idProjet}','App\Http\Controllers\users\likeController@show');
     Route::get('show_nombre/{idProjet}','App\Http\Controllers\users\likeController@show_nombre');
     Route::post('ajouter_comm/{idProjet}','App\Http\Controllers\users\commentController@store');
@@ -35,16 +38,41 @@ Route::group([ 'middleware' =>'auth:api'], function(){
     Route::post('LancerQuestion','App\Http\Controllers\QuestionsController@store');
     Route::post('/getUser_Connected','App\Http\Controllers\LoginLogoutController@getUser_Connected');
     Route::post('/QuestionPoser','App\Http\Controllers\QuestionsController@store');
+    Route::delete('/suppquestion/{id}','App\Http\Controllers\QuestionsController@supprimerQestion');
+    Route::get('/Questionpasreponser','App\Http\Controllers\QuestionsController@getQuestionPasaccepte');
     Route::post('/AddCadeax','App\Http\Controllers\CadeauxController@store');
-    Route::post('/cadeaux/{projet_id}','App\Http\Controllers\CadeauxController@show');
+    Route::get('/projetenattante', 'App\Http\Controllers\users\projetController@getallprojetenattnde');
+
+    //Admin
+    //getDataAllProjectAdmin
+    Route::get('/getDataAdmin','App\Http\Controllers\admin\AdminController@getDataAllProjectAdmin');
+    
+    Route::post('/acceptprojet/{id}', 'App\Http\Controllers\users\projetController@accepetationdeProjets');
+    Route::post('/reffuserProjet/{id}', 'App\Http\Controllers\users\projetController@refuseProjet');
+    Route::get('/getALLglobalAdmin','App\Http\Controllers\admin\AdminController@getlesNombre');
+    Route::get('/getseccusProjet','App\Http\Controllers\admin\AdminController@getseccusProjet');
+    Route::get('/mieurprojet','App\Http\Controllers\admin\AdminController@mieurprojet');
+    Route::get('/getAllUser', 'App\Http\Controllers\LoginLogoutController@getAllUser');
+    Route::post('/ActiverCompteAdmin/{id}','App\Http\Controllers\admin\AdminController@ActiverComptreParAdmin');
+    Route::post('/desActiverCompteAdmin/{id}','App\Http\Controllers\admin\AdminController@desActiverComptreParAdmin');
+    Route::GET('/getAllMessage','App\Http\Controllers\admin\AdminController@getAllMessage'); 
+    Route::post('/reponder','App\Http\Controllers\QuestionsController@AccepteQuestion');
     Route::post('/projet', 'App\Http\Controllers\users\projetController@store');
     Route::delete('/projet/{id}', 'App\Http\Controllers\users\projetController@destroy');
+    Route::delete('/supprimerprojet/{nom}', 'App\Http\Controllers\users\projetController@SupprimerParNome');
+    
     Route::get('/NombreProjet/{id}','App\Http\Controllers\users\projetController@NombreProjet');
     Route::post('/updatephoto/{id}', 'App\Http\Controllers\LoginLogoutController@updatephotousers');
-    Route::get('/acceptprojet/{id}', 'App\Http\Controllers\users\projetController@accepetationdeProjets');
+    Route::post('/modifierPasseProfil', 'App\Http\Controllers\LoginLogoutController@Modifierpassprofil');
+    
 });
+
+Route::get('/datetest', 'App\Http\Controllers\LoginLogoutController@testdateprojet');
+Route::get('/cadeaux/{projet_id}','App\Http\Controllers\CadeauxController@show');
 Route::post('/register', 'App\Http\Controllers\LoginLogoutController@register');
 Route::post('/Login', 'App\Http\Controllers\LoginLogoutController@login');
+//ADD MESSAGE USER SON AUTONTIFICATION
+Route::post('/addMessage','App\Http\Controllers\admin\AdminController@addMessage');
 Route::get('/getQestion','App\Http\Controllers\QuestionsController@getQestion');
 Route::get('/projet/{nom_projet}','App\Http\Controllers\users\projetController@show');
 Route::post('/checkTitre','App\Http\Controllers\users\projetController@checkTitre');

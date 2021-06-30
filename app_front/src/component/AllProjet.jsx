@@ -23,6 +23,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import { useHistory } from 'react-router-dom';
+import Footer from './Footer';
 const useStyles = makeStyles({
     root: {
       width: '390px',
@@ -96,6 +97,7 @@ function AllProjet() {
     
     }
     return (
+       <>
         <div className="container" >
             <div className="row" style={{display:'flex' ,justifyContent:'center',marginTop:'10px'}}>
                 <div>
@@ -227,8 +229,10 @@ function AllProjet() {
              )})
             }
             </div>
+            
         </div>
-        
+        <Footer/>
+        </>
     )
 } 
 

@@ -22,14 +22,23 @@ const initialState5 = {
     error: null,
 }
 const initialStatecadeaux = {
-        cadeaux: null,
-    }
-    // const initialState5 = {
-    //     info2: null
-    // };
-    // const initialState6 = {
-    //     info3: null
-    // };
+    cadeaux: null,
+}
+const initialStateAdmin = {
+    admin: false,
+}
+const alluserStat = {
+    user: [],
+}
+const QuestionState = {
+    question: [],
+}
+const projetenattnde = {
+    projet: [],
+}
+const messageData = {
+    message: [],
+}
 export const userReducer = (state = initialState, { type, payload }) => {
     switch (type) {
         case ActionTypes.SET_USERS:
@@ -41,14 +50,76 @@ export const userReducer = (state = initialState, { type, payload }) => {
 
     }
 }
-
-export const userConnecterReducer = (state = initialState1, { type, payload }) => {
+export const AdminReducer = (state = initialStateAdmin, { type, payload }) => {
     switch (type) {
-        case ActionTypes.HOMME:
-            return {...state, user_connecter: payload };
+        case ActionTypes.ADMIN:
+            return {...state, admin: payload };
+        default:
+            return state;
+    }
+}
+export const userConnecterReducer = (state = initialState1, { type, payload }) => {
+        switch (type) {
+            case ActionTypes.HOMME:
+                return {...state, user_connecter: payload };
+            default:
+                return state;
+
+        }
+    }
+    //Admin  redux
+export const AllUserReducer = (state = alluserStat, { type, payload }) => {
+    switch (type) {
+        case ActionTypes.ALLUSER:
+            return {...state, user: payload };
+        case ActionTypes.UPDATEUSE:
+            const index = state.user.findIndex(user => user.id === payload.id);
+            const newArray = [...state.user]; //making a new array
+            newArray[index].ActiveCompte = payload.ActiveCompte;
+            return {
+                ...state, //copying the orignal state
+                user: newArray, //reassingning todos to new array
+            }
         default:
             return state;
 
+    }
+}
+export const MessageReducer = (state = messageData, { type, payload }) => {
+        switch (type) {
+            case ActionTypes.GETALLMESSAGEPOSTER:
+                // return {...state, message: payload };
+                console.log(payload);
+            default:
+                return state;
+        }
+    }
+    // export const ProjetDataReducer = (state = projetenattnde, { type, payload }) => {
+    //     switch (type) {
+    //         case ActionTypes.PROJETENATTANDE:
+    //             return {...state, projet: payload };
+    //         case ActionTypes.SUPPRIMERPROJET:
+    //             return { // returning a copy of orignal state
+    //                 ...state, //copying the original state
+    //                 projet: state.projet.filter(projet => projet.id !== payload.id)
+    //                     // returns a new filtered todos array
+    //             }
+    //         default:
+    //             return state;
+    //     }
+    // }
+export const QuestionPosserReducer = (state = QuestionState, { type, payload }) => {
+    switch (type) {
+        case ActionTypes.QUESTIONPASACCEPTE:
+            return {...state, question: payload };
+        case ActionTypes.SUPPRIMERQUESTION:
+            return { // returning a copy of orignal state
+                ...state, //copying the original state
+                question: state.question.filter(question => question.id !== payload.id)
+                    // returns a new filtered todos array
+            }
+        default:
+            return state;
     }
 }
 export const loginConnectionReducer = (state = initialState2, { type, payload }) => {

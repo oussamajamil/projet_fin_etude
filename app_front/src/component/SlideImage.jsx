@@ -4,7 +4,6 @@ import Carousel from 'react-bootstrap/Carousel';
 import styled from 'styled-components';
 import ImagesSlide1 from './slideHomme/hero-1.jpg'
 import ImagesSlide2 from './slideHomme/hero-2.jpg';
-import ImagesSlide3 from './slideHomme/hero-3.jpg';
 import ImagesSlide4 from './slideHomme/hero-4.jpg';
 import './slideimg.css';
 
@@ -68,5 +67,5 @@ const Widths= styled.div `
      width:100vw;
      height: 600px;
      marginTop:10px;
-     left:-15px;
+     left:-32px;
 `;

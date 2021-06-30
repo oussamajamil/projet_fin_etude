@@ -5,6 +5,9 @@ namespace App\Http\Controllers\users;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Projet as Projet;
+use Carbon\Carbon;
+use DateInterval;
+use DateTime;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -28,6 +31,35 @@ class projetController extends Controller
     }
 
     }
+
+    public function getallprojetenattnde()
+    {
+      
+        try
+        {
+            $nombreprojet=DB::table('projets')->where('accepte','en attand')->count();
+            if( $nombreprojet>0)
+            {
+                $projet=DB::table('projets')
+                ->join('users', 'users.id', '=', 'projets.user_id')
+                ->select('projets.*', 'users.user_name','users.nom','users.prenom','users.photo')
+                ->where("accepte","en attand")
+                ->orderBy('id','DESC')
+                ->get();
+              return  response()->json(['data'=>$projet], 200);
+            }
+            else
+            {
+               return response()->json(['message'=>"not found"], 200);
+            }
+        }
+        catch(exception $ex)
+        {
+          return  response()->json(['err'=>$ex->getMessage()], 200);
+        }
+        
+    
+    }
     public function accepetationdeProjets($id)
     {
         try
@@ -40,6 +72,20 @@ class projetController extends Controller
             return response()->json(['error'=>$ex->Message],400);
         }
     }
+    //reffser Projet
+    public function refuseProjet($id)
+    {
+        try
+        {
+            DB::table('projets')->where('id','=',$id)->update(["accepte"=>"non"]);
+            return response()->json(['message'=>"bienModifiere"],200);
+        }
+        catch(Exception $ex)
+        {
+            return response()->json(['error'=>$ex->Message],400);
+        }
+    }
+
     public function ProjetAccepte()
     {
         try
@@ -150,15 +196,21 @@ class projetController extends Controller
         }
     public function store(Request $request)
     {
-       
+        try
+        {
             $file = $request->file('images');
             //$image=$file->getClientOriginalName();
             $image = time().'.'.$file->getClientOriginalExtension();
             $destinationPath ='assets/projets/';
             $file->move($destinationPath,$image);
             $img=$destinationPath.$image;
-        try
-        {
+
+           
+            $date = new DateTime($request->date_lance_projet);
+            $nombre='P'.($request->nombre_jour).'D';
+            $date->add(new DateInterval($nombre));
+            $Date2 = $date->format('Y-m-d');
+       
             DB::table('projets')->insert([
                 'user_id'=> $request->user_id,
                 'images' => $img,
@@ -169,15 +221,15 @@ class projetController extends Controller
                 'Prix_rest'=> $request->prix_total,
                 'Catégorie'=> $request->Catégorie,
                 'pays'=> $request->pays,
+                'date_fin_projet'=> $Date2,
                 'Url_vedio_youtube'=> $request->Url_vedio_youtube,
-                'date_fin_projet'=> $request->date_fin_projet,
                 'titre1'=>$request->titre1,
                 'titre2'=>$request->titre2,
                 'description1'=>$request->description1,
                 'description2'=>$request->description2,
                 'titre3'=>$request->titre2,
                 'description3'=>$request->description3,
-
+                'nombre_jour'=>$request->nombre_jour,
                 ]);
                 $projets=DB::table('projets')->select('id')->where('nom_projet',$request->nom_projet)->get();
               return response()->json([
@@ -305,13 +357,31 @@ class projetController extends Controller
               ], 422);
          } 
          else{
+            $user_id=DB::table('projets')->select('user_id')->where('id',$id)->get();
+            DB::table('cadeauxes')->where('projet_id', $id)->delete();
              Projet::destroy($id);
+             $nombreProjetLancer=DB::table('users')->select('nombreProjetLancer')->where('id',$user_id)->get();
+             DB::table('users')->where('id',$user_id)->update(['nembre_projet_lancer',$nombreProjetLancer-1]);
              return response()->json([
                 'message' =>'projet bien supprimé',
             ], 200);
         
 
     }
+    }
+    public function SupprimerParNome($nom)
+    {
+        $id=DB::table('projets')->select('id')->where('nom_projet',$nom)->first();
+        try
+        {
+          DB::table('cadeauxes')->where('projet_id', $id->id)->delete();
+          DB::table('projets')->where('nom_projet',$nom)->delete();
+          return response()->json(['message','bien supprimer'],200);
+        } 
+        catch(exception $ex)
+        {
+         return response()->json(['error',$ex->getMessage()],200);
+        }   
     }
 
 }

@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
   function getSteps() {
-    return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+    return ['Entrer vos informations de projets', 'Entrer une photo ou url de vos videos youtube', 'Propose cadeaux','Validation de vos projets'];
   }
   function getStepContent(step) {
     switch (step) {
@@ -45,8 +45,11 @@ const useStyles = makeStyles((theme) => ({
                 and learn how to enhance your ads using features like ad extensions.
                 If you run into any problems with your ads, find out how to tell if
                 they're running and how to resolve approval issues.`;
+      case 3:
+        return 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime nisi modi dolor reiciendis exercitationem! Quasi, optio voluptatem maxime quos, rem deserunt iusto modi reprehenderit illo maiores consequuntur ratione harum sed?';
       default:
         return 'Unknown step';
+        
     }
   }  
 function Confirmation() {
@@ -87,7 +90,7 @@ function Confirmation() {
                     onClick={handleBack}
                     className={classes.button}
                   >
-                    Back
+                    Précédent
                   </Button>
                   <Button
                     variant="contained"
@@ -96,7 +99,7 @@ function Confirmation() {
                     className={classes.button}
                    
                   >
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    {activeStep === steps.length - 1 ? 'Fin' : 'Suivant'}
                   </Button>
                 </div>
               </div>

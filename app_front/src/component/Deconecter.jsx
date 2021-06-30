@@ -29,7 +29,9 @@ function Deconecter() {
                 dispatch(Hommes(null));
                 history.push('/CONNECTER');
                 localStorage.removeItem('token');
+                localStorage.removeItem('Type');
                 Cookies.remove('user_name');
+                 Cookies.remove('type_user');
 
             }).catch(errres=>{
                 console.log("error");

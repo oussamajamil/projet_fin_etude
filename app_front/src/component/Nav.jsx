@@ -120,18 +120,29 @@ function NavP() {
             <Nav.Link href="/Homme" > Découvrir</Nav.Link>
             <Nav.Link href="/Questions">Question</Nav.Link>
             <Nav.Link href="/AllProjet">Projets</Nav.Link>
-             {user==null && user1==null?
-              "":
-            <Button
-            variant="contained"
-            href="/Confirmation"
-            className={classes.button}
-            startIcon={<AddIcon/>}
-          >
-            creer Votre projet
-          </Button>
-             }
-
+              {
+                user==null && user1==null?"":
+                 
+                user!=null?
+                
+                user.Type=="Admin"?
+                <Nav.Link href="/doshbordAdmin">Admin</Nav.Link>:""
+                :
+                user1.Type=="Admin"?
+                <Nav.Link href="/doshbordAdmin">Admin</Nav.Link>:""
+              } 
+         {
+           user==null && user1==null?"":
+             <Button
+             variant="contained"
+             href="/Confirmation"
+             className={classes.button}
+             startIcon={<AddIcon/>}
+             
+           >
+             creer Votre projet
+           </Button>
+         }
           </Nav>
           {user==null?
           user1==null?
@@ -212,7 +223,7 @@ function NavP() {
        </StyledMenu>
      </div>
            <Avatar className={classes.img_slage} src={user1 && user1.photo!="images/user.png"?"http://127.0.0.1:8000/"+user1.photo:user && user.photo!="images/user.png"?"http://127.0.0.1:8000/"+user.photo:""}>
-              {user1 && user1.photo=="images/user.png"?user1.prenom.charAt(0).toUpperCase():user && user.photo=="images/user.png"?user.prenom.charAt(0).toUpperCase():""}
+              {user1 && user1.photo=="images/user.png"?user1.nom.charAt(0).toUpperCase()+user1.prenom.charAt(0).toUpperCase():user && user.photo=="images/user.png"?user.nom.charAt(0).toUpperCase()+user.prenom.charAt(0).toUpperCase():""}
             </Avatar>
           </Nav>
           :<Nav>

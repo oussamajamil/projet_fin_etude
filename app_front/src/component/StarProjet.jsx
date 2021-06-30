@@ -121,7 +121,7 @@ function StarProjet( props) {
             }
             if(donner.prix_total=="")
             {
-              serroprix_total("choiser categorie");
+              serroprix_total("tapez prix");
             }
             else
             {
@@ -146,8 +146,9 @@ function StarProjet( props) {
           }
         }
         const user_name1=useSelector((state)=>state.projet.projet);
+       
     return (
-        
+      <form action="">
         <div key={props.nb}>
             {/* <h1>Lanccer votre projet</h1> */}
              
@@ -155,6 +156,7 @@ function StarProjet( props) {
               <div className="col-sm-10 col-md-10 col-lg-4" >
                   <h6 className="headSr">titre de votre projets*</h6>
                   {erronom_projet==""?
+                  
 
                   <TextField
                    id="outlined-basic" 
@@ -234,14 +236,17 @@ function StarProjet( props) {
                    <FormControl fullWidth className="formControl" variant="outlined">
                    <InputLabel htmlFor="outlined-adornment-amount">prix</InputLabel>
                    <OutlinedInput
+                  inputProps={{ pattern: "[0-9]{0,9}" }}
                        id="outlined-adornment-amount"
                        value={donner.prix_total}
+                       type="number"
                        onChange={handleChange}
                        startAdornment={<InputAdornment position="start">DH</InputAdornment>}
                        labelWidth={60}
                        name='prix_total'
                    />
               </FormControl>:
+              <>
                 <FormControl fullWidth className="formControl" variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-amount">prix</InputLabel>
                 <OutlinedInput
@@ -254,7 +259,10 @@ function StarProjet( props) {
                     helperText={erroprix_total}
                     name='prix_total'
                 />
-                </FormControl>}
+                </FormControl>
+                <span style={{color:'red',fontSize:'0.8em',marginLeft:'10px'}}>{erroprix_total}</span>
+                </>
+                }
                  
               </div>
               <div className="col-sm-10 col-md-10 col-lg-4" >
@@ -351,7 +359,9 @@ function StarProjet( props) {
                    <Button  className="btnEnv1" variant="outlined" color="primary" onClick={(e)=>getData(e)}>Envoyer les donner </Button>
               </div>
         </div>
+       
         </div>
+        </form>
     )
 }
 

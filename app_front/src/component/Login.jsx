@@ -23,7 +23,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 import Cookies from  'js-cookie';
-import {Hommes, login} from '../redux/actions/UserActions';
+import {Hommes, login,admin} from '../redux/actions/UserActions';
 import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Alert from 'react-bootstrap/Alert'
@@ -142,13 +142,13 @@ let connect=useSelector((state)=>state.conn.loginConn);
             
             if(res.data.type.Type=="user")
             {   
-              connect==null?
-              history.push('/'): 
-              history.push(connect)
+              history.push('/');
             }
             else
             {
-              history.push('/AdminOussa');
+              history.push('/doshbordAdmin');
+              Cookies.set('type_user',"Admin");
+             
             }
             
 

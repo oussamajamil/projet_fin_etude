@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User as User;
+use DateInterval;
+use DateTime;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Crypt;
 use File;
 use Sentinel;
 use Reminder;
@@ -93,6 +96,26 @@ class LoginLogoutController extends Controller
            else{
             return response()->json(['error'=>'code deferont'],200);
            }
+       }
+       public function Modifierpassprofil(request $req)
+       {
+           $pass=DB::table('users')->select('password')->where('user_name',$req->user_name)->get();
+           if(password_verify($req->password, $pass[0]->password)) {
+             try
+             {
+              DB::table('users')->where('user_name',$req->user_name)->update(["password"=>bcrypt($req->nouveapass)]);
+               return response()->json(['message'=>'bie modifier'],200);
+             }
+             catch(Exception $ex)
+             {
+                 return response()->json(["error"=>$ex->Message],200);
+             }
+          }
+          else
+          {
+            return response()->json(['message'=>'mode passe incorect'],200);
+          }
+           
        }
         function ForgetPassemail(request $req )
         {
@@ -218,5 +241,21 @@ class LoginLogoutController extends Controller
         return response()->json([
             'message' => 'Successfully logged out'
         ],200);
+    }
+    public function getAllUser()
+    {
+        try
+        {
+          $users=DB::table('users')->get();
+          return response()->json([
+            'data' =>  $users
+        ],200);
+        }
+        catch(exception $ex)
+        {
+            return response()->json([
+                'error' =>  $ex->getMessage()
+            ],200);
+        }
     }
 }

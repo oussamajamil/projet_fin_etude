@@ -150,8 +150,18 @@
         left: 119px;
     }
     
-    .btnimagesusers:hover {}
+    .linkModifierpass:hover {
+        background-color: '#ff6e7f'!important;
+    }
     
+    .rowpassconfprofil {
+        margin-top: 20px!important;
+    }
+    .msageerrorprofin
+    {
+        color:red;
+        font-size:0.7em;
+    }
     .block-menu ul li a {
         border-right: 1px solid #e9eaed;
         float: left;
