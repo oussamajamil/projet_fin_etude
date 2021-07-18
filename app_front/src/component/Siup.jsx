@@ -102,6 +102,14 @@ export default function Siup() {
    async function handlesubmit(e)
   {
     e.preventDefault();
+            seterroruser_name('');
+            seterroremail('');
+            seterrornom('');
+            seterrorprenom('');
+            seterrorpassword('');
+            seterrorpasswordc('');
+            seterrordate('');
+            seterrorpays('');
     if(values.nom!=="" && values.prenom!=="" && values.password!=="" && values.c_password!=="" && values.email!=="" && values.pays!=="" && values.date_naissance && values.user_name &&validateEmail(values.email) && values.password==values.c_password  &&parseInt(values.password.length)>8 &&parseInt(values.c_password.length)>8 )
     {
       setloadin(true);

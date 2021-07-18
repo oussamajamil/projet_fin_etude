@@ -68,14 +68,9 @@ class CadeauxController extends Controller
         try
         {
             $cad= DB::table('cadeauxes')->where('projet_id',$projet_id)->get();
-            if($cad==null)
-            {
-                return response()->json(['message','auccun cadeax'],200);
-            }
-            else
-            {
-                return response()->json(['cadeaux',$cad],200);
-            }
+           
+            return response()->json(['cadeaux'=>$cad],200);
+
         }
         catch(Exception $ex)
         {

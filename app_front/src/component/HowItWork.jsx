@@ -11,6 +11,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useHistory } from 'react-router';
 import FileSaver from 'file-saver';
 import Footer from './Footer';
+import fedwa from './Admin/imageAdmin/fedwa.jpeg';
+import rachid from './Admin/imageAdmin/rachid.jpeg';
+import oussama from './Admin/imageAdmin/oussama.jpeg';
 function HowItWork() {
     let history=useHistory();
     const defaultProps = {
@@ -24,14 +27,14 @@ function HowItWork() {
     const AnyReactComponent = ({ text }) => <div>{text}</div>;
     const saveFile = () => {
             FileSaver.saveAs(
-          process.env.REACT_APP_CLIENT_URL + "/QUI_SOMMES_NOUS.pdf'",
+          process.env.REACT_APP_CLIENT_URL + "./pdf/QUI_SOMMES_NOUS.pdf'",
           "AMMAL.pdf"
         );
       }
     return (
         <>
          <img height="450px" src="https://www.affiches-parisiennes.com/content/images/2020/10/01/11022/adobestock252397847.jpg" alt='image' className="card-img-top  "  />
-         <h4 id="txtimageh4">Ammal est une plateforme de financement participatif dans le grand maghreb qui vise à soutenir les créateurs et l'innovation
+         <h4 id="txtimageh4">AMMAL est une plateforme de financement participatif dans le grand maghreb qui vise à soutenir les créateurs et l'innovation
             Des fonds peuvent être collectés sur Ammal pour des projets et initiatives dans les secteurs créatifs, innovants ou liés à la communauté.</h4>
          <Container>
           <Grid
@@ -77,14 +80,22 @@ function HowItWork() {
             
                </Row>
                </div>
-               
+               <Row>
+               <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="center">
+            <p className="ppropsAmal">équipe de travaille</p>
+            </Grid>
+               </Row>
                <div style={{display:'flex',justifyContent:'space-between', marginLeft:'50px',marginTop:'50px'}}>
                    <Row>
                    <Col>
                    
                <div className="card text-center" style={{marginTop:'60px'}}>
             <div className="overflow">
-                <img src="" alt='Image 1' className="card-img-top"/>
+                <img src={rachid} alt='Image 1' className="card-img-top"/>
             </div>
             <div className="card-body text-dark">
                 <h4 className="card-title">Rachid</h4>
@@ -100,13 +111,13 @@ function HowItWork() {
               
                 <div className="card text-center  cardoussama" >
             <div className="overflow">
-                <img src="" alt='Image 1' className="card-img-top"/>
+                <img src={oussama} alt='Image 1' className="card-img-top"/>
             </div>
             <div className="card-body text-dark">
                 <h4 className="card-title">oussama</h4>
                 <p className="card-text text-secondary">
                     Nom: Oussama Jamil
-                    Email:OussamaJamil@gmail.com
+                    Email:OussamaJamil01@gmail.com
                 </p>
                 </div>    
                 </div>
@@ -115,7 +126,7 @@ function HowItWork() {
                 <Col  xs={12} sm={4}>
                 <div className="card text-center" style={{marginTop:'60px'}}>
             <div className="overflow">
-                <img src="" alt='Image 1' className="card-img-top"/>
+                <img src={fedwa} alt='Image 1' className="card-img-top"/>
             </div>
             <div className="card-body text-dark">
                 <h4 className="card-title">Fedwa</h4>

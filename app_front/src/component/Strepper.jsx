@@ -12,8 +12,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import StarProjet from './StarProjet';
 import './Strepper.css';
+import {useHistory } from 'react-router-dom';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import WarningIcon from '@material-ui/icons/Warning';
 import CakeIcon from '@material-ui/icons/Cake';
 import Grid from '@material-ui/core/Grid';
@@ -151,7 +152,8 @@ function ColorlibStepIcon(props) {
   const classes = useColorlibStepIconStyles();
   const { active, completed } = props;
   const dataRedu=useSelector((state)=>state.projet.projet);
-  let user_name1=null;
+ 
+  
   let error="";
   let icons={};
    if(dataRedu=="error1")
@@ -232,6 +234,14 @@ export default function Strepper() {
   const steps = getSteps();
   const dataRedu=useSelector((state)=>state.projet.projet);
   const errorP=useSelector((state)=>state.irrorP.error);
+  let history=useHistory();
+  
+  useEffect(() => { 
+   if(localStorage.getItem('token')==undefined)
+    {
+      history.push('/');
+    }
+  },[]);
   let user_name1=null;
   let error="";
    if(dataRedu=="error1")

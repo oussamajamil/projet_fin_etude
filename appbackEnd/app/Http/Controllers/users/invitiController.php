@@ -9,6 +9,8 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Stripe\Charge;
+use Stripe\Stripe;
 
 class invitiController extends Controller
 {
@@ -68,10 +70,7 @@ class invitiController extends Controller
               return response()->json([
                 'message' =>'Bien Ajouter',
               ], 200);
-           $projet= DB::table('projets')->select(' prix_total','Prix_payes','Prix_rest')->where('id','=',$id)->get();
-              DB::table('projets')->where('id',$id)->update([
-                'Prix_rest'  => $projet[0]->prix_total-$projet[0]->Prix_payes,
-              ]);
+         
 
             } 
             catch(Exception $ex)
@@ -90,7 +89,7 @@ class invitiController extends Controller
      */
     public function show($id_projet)
     {
-        $projet=DB::table('investissements')->where('id_projet',$id_projet)->get();
+        $projet=DB::table('invi')->where('id_projet',$id_projet)->get();
         if(count($projet)==0)
         {
             return response()->json([
@@ -136,18 +135,75 @@ class invitiController extends Controller
      */
     public function destroy($id)
     {
-        $invi = investissements::find($id);
-        if ($invi == null) {
-            return response()->json([
-                    'message'  => "investissements introuvable!",
-              ], 422);
-         } 
-         else{
-            investissements::destroy($id);
-             return response()->json([
-                'message' =>'investissements bien supprimé',
-            ], 200);
-        }
+        
          
+    }
+    public function inviParjours()
+    {
+        try
+        {
+        $projet=DB::table('invi')
+        ->join('projets','invi.projetID','=','projets.id')
+        ->select('projets.*','invi.prix')
+        ->where("data",date('Y-m-d'))
+        ->get(); 
+        return response()->json(["data"=>$projet],200);
+        }
+        catch(exception $ex)
+        {
+            return response()->json(["error"=>$ex->getMessage()],400);
+        }
+      
+    }
+    public function payements(Request $req)
+    {
+        try
+        {
+            $stripe = new \Stripe\StripeClient(
+                "sk_test_51JACeLA5JsjwR9VpfSefimaxnWBuQXym9QJw253o7fcYvDWGnHpqREmCrzjtBcPudath12T3LTAnZs73UiNkfGet000KXbJfSf"
+              );
+              $a=$stripe->tokens->create([
+                'card' => [
+                  'number' => $req->number,
+                  'exp_month' => $req->exp_month,
+                  'exp_year' => $req->exp_year,
+                  'cvc' => $req->cvc,
+                ],
+              ]);
+                    Stripe::setApiKey("sk_test_51JACeLA5JsjwR9VpfSefimaxnWBuQXym9QJw253o7fcYvDWGnHpqREmCrzjtBcPudath12T3LTAnZs73UiNkfGet000KXbJfSf");
+                    Charge::create ([
+                            "amount" => floatval($req->prix)*100,
+                            "currency" => "mad",
+                            "source" => $a->id,
+                            "description" => "Make payment and chill." 
+                    ]);
+                    DB::table('invi')->insert([
+                        "nomComplete"=>$req->nomComplete,
+                        "email"=>$req->email,
+                        "prix"=>$req->prix,
+                        "visible"=>$req->visible,
+                        "projetID"=>$req->projetID,
+                ]);
+                $projet= DB::table('projets')->select('prix_total','Prix_payes','Prix_rest','date_fin_projet')->where('id',$req->projetID)->get();
+                DB::table('projets')->where('id',$req->projetID)->update([
+                  'Prix_payes'  => $projet[0]->Prix_payes+$req->prix
+                ]);
+    
+                $prixtotlapays=$projet[0]->Prix_payes+$req->prix;
+                if($prixtotlapays>=$projet[0]->prix_total)
+                {
+                    DB::table('projets')->where('id',$req->projetID)->update([
+                        'Success'  => "oui"
+                      ]);  
+                }
+                    return response()->json(["message"=>"bien payer"],200);
+        }
+                catch(exception $ex)
+                {
+                    return response()->json(["error"=> $ex->getMessage()],400); 
+                }
+        
+
+               
     }
 }

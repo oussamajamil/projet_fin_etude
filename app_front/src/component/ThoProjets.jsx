@@ -122,7 +122,7 @@ function ThoProjets(props) {
           }
           else
           {
-         if(image.name.split('.')[1].toUpperCase()=="JPG" || image.name.split('.')[1].toUpperCase()=="PNG")
+         if(image.name.split('.')[1].toUpperCase()=="JPG" || image.name.split('.')[1].toUpperCase()=="PNG" || image.name.split('.')[1].toUpperCase()=="JPEG")
          {
            seterrorImage('');
            const dr={

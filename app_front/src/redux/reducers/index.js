@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { userReducer, MessageReducer, ProjetDataReducer, QuestionPosserReducer, userConnecterReducer, AllUserReducer, AdminReducer, loginConnectionReducer, addprojetReducer, addinfoReducer1, errorProjetReducer, cadeauxReducer } from './userReducer';
+import { userReducer, invisReducer, allprojetReducer, likesReducer, MessageReducer, ProjetDataReducer, QuestionPosserReducer, userConnecterReducer, AllUserReducer, AdminReducer, loginConnectionReducer, addprojetReducer, addinfoReducer1, errorProjetReducer, cadeauxReducer } from './userReducer';
 
 const reducers = combineReducers({
     app: userReducer,
@@ -12,7 +12,10 @@ const reducers = combineReducers({
     admin: AdminReducer,
     alluser: AllUserReducer,
     QuestionPoser: QuestionPosserReducer,
-    // projetDataattande: ProjetDataReducer,
+    projetDataattande: ProjetDataReducer,
     messagePoster: MessageReducer,
+    likeProjets: likesReducer,
+    allprojet: allprojetReducer,
+    inviss: invisReducer,
 })
 export default reducers;

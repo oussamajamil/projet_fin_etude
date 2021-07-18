@@ -3,8 +3,12 @@ import  './Footer.css';
 import {Modal,Button,Spinner} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from '@material-ui/lab/Alert';
+import Fab from '@material-ui/core/Fab';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import axios from 'axios';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 function Footer() {
+  const [gmail,setgmail]=useState('');
   const [data,setdata]=useState({
     Message:'',
     errorMesssage:'',
@@ -101,28 +105,23 @@ function Footer() {
         <h6 className="ftr-hdr">Follow Us</h6>
         <ul>
           <li>
-            <a href="https://www.facebook.com/art.com" title="Facebook">
+            <a target="_blank"  href="https://www.facebook.com/oussama.jamil.5492" title="Facebook">
               <img width="24" height="24" alt="Like us on Facebook" src="http://cache1.artprintimages.com/images/jump_pages/rebrand/footer/fb.png"/>
             </a>
           </li>
           <li>
-            <a href="https://plus.google.com/108089796661280870153" title="Google+">
+            <span href="https://plus.google.com/108089796661280870153" title="Google+" onClick={(e)=>{
+                e.preventDefault();
+                setgmail('gmail');
+                handleShow();
+            }}>
               <img width="24" height="24" alt="Follow us on Google+" src="http://cache1.artprintimages.com/images/jump_pages/rebrand/footer/gplus.png"/>
-            </a>
+            </span>
           </li>
+         
           <li>
-            <a href="https://pinterest.com/artdotcom/" target="_blank">
-              <img width="24" height="24" alt="Follow us on Pinterest" src="http://cache1.artprintimages.com/images/jump_pages/rebrand/footer/pin-badge.png"/>
-            </a>
-          </li>
-          <li>
-            <a target="_blank" href="http://instagram.com/artdotcom/">
+            <a target="_blank" href="https://www.instagram.com/oussa_jamil">
               <img width="24" height="24" alt="Follow us on Instagram" src="http://cache1.artprintimages.com/images/jump_pages/rebrand/footer/instagram-badge.png"/>
-            </a>
-          </li>
-          <li>
-            <a href="https://www.twitter.com/artdotcom" title="Twitter">
-              <img width="67" alt="Follow us on Twitter" src="http://cache1.artprintimages.com/images/jump_pages/rebrand/footer/twitter.png"/>
             </a>
           </li>
         </ul>
@@ -139,9 +138,6 @@ function Footer() {
           <li className="ftr-stella">
             <span title="Stella Service" ></span>
           </li>
-          {/* <li>
-            <span><img  alt="HACKER SAFE certified sites prevent over 99.9% of hacker crime." src="https://images.scanalert.com/meter/www.art.com/31.gif"/></span>
-          </li> */}
           <li className="ftr-bbb">
             <span title="BBB"></span>
           </li>
@@ -153,14 +149,18 @@ function Footer() {
   </div>
   <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
+          {gmail=="gmail"?
+          <Modal.Title>Gmail</Modal.Title>:
           <Modal.Title>Contactez nous</Modal.Title>
+          }
+         
         </Modal.Header>
        
         <Modal.Body>
-        <form>
+          {gmail!="gmail"?  <form>
           <div class="form-row">
              <div class="form-group col-md-6">
-              <input type="text" id="form-name" class="form-control" placeholder="votre nom complete" required  pattern="[A-Za-z ]{3,16}" value={data.nom}  onChange={handleChange('nom')
+              <input type="text" id="form-name" class="form-control" placeholder="votre nom complete" required  pattern="[A-Za-z ]{3,30}" value={data.nom}  onChange={handleChange('nom')
                 }/>
                 <span style={{fontSize:'0.6em',color:'red'}}>{data.errornom}</span>
                 </div>
@@ -230,7 +230,17 @@ function Footer() {
             }
           }}>Envoyer</button>}
           
-           </form> 
+           </form> :
+           <div style={{display:'flex'}}>
+           <h3>oussamajamil01@gmail.com</h3>
+           <CopyToClipboard text={"oussamajamil01@gmail.com"}>
+           <Fab style={{marginLeft:'30px'}} color="primary" aria-label="add">
+              <FileCopyIcon />
+            </Fab>
+            </CopyToClipboard>
+            </div>
+           }
+      
         </Modal.Body>
         <Modal.Footer>
           {alertt==true?<Alert severity="error" style={{marginRight:'180px',width:'100%'}}>tous les champs il est obligatoire</Alert>:

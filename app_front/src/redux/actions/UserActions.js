@@ -46,7 +46,7 @@ export const supprimerQestion = (inf) => {
 }
 export const getallmessage = (info) => {
     return {
-        type: ActionTypes.SUPPRIMERPROJET,
+        type: ActionTypes.GETALLMESSAGEPOSTER,
         payload: info,
     }
 }
@@ -54,6 +54,18 @@ export const supproj = (id_projet) => {
     return {
         type: ActionTypes.SUPPRIMERPROJET,
         payload: id_projet,
+    }
+}
+export const addinvi = (info) => {
+    return {
+        type: ActionTypes.POSTINVI,
+        payload: info,
+    }
+}
+export const supprimerMessages = (info) => {
+    return {
+        type: ActionTypes.SUPPRIMERMESSAGEPOSTERS,
+        payload: info,
     }
 }
 export const getAllQestionposer = (question) => {
@@ -103,5 +115,17 @@ export const cadeauxProjets = (cadeaux) => {
     return {
         type: ActionTypes.CADEAUX,
         payload: cadeaux,
+    }
+}
+export const getalllikes = (likes) => {
+    return {
+        type: ActionTypes.ALLLIKESPROJETPARUSER,
+        payload: likes,
+    }
+}
+export const getallprojet = (projet) => {
+    return {
+        type: ActionTypes.ALLPROJET,
+        payload: projet,
     }
 }

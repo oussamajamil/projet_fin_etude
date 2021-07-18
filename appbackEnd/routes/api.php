@@ -22,6 +22,8 @@ Route::group([ 'middleware' =>'auth:api'], function(){
     Route::delete('/invi/{id}', 'App\Http\Controllers\users\invitiController@destroy');
     Route::get('/invi_projet/{id}', 'App\Http\Controllers\users\invitiController@show');//t9RA INVI 3la hsab projet
     Route::get('/monProjet', 'App\Http\Controllers\users\projetController@monProjets');
+    Route::get('/inviParjours', 'App\Http\Controllers\users\invitiController@inviParjours');
+    
     Route::post('like/{idProjet}','App\Http\Controllers\users\likeController@store');
     // projet Accepte + projet Refuser
     
@@ -31,7 +33,6 @@ Route::group([ 'middleware' =>'auth:api'], function(){
     Route::get('show_like/{idProjet}','App\Http\Controllers\users\likeController@show');
     Route::get('show_nombre/{idProjet}','App\Http\Controllers\users\likeController@show_nombre');
     Route::post('ajouter_comm/{idProjet}','App\Http\Controllers\users\commentController@store');
-   
     Route::get('show_commant/{idProjet}','App\Http\Controllers\users\commentController@show_commant');
     Route::put('update_comm/{id}','App\Http\Controllers\users\commentController@update_comm');
     Route::delete('supprimer_comm/{id}','App\Http\Controllers\users\commentController@destroy');
@@ -55,22 +56,27 @@ Route::group([ 'middleware' =>'auth:api'], function(){
     Route::get('/getAllUser', 'App\Http\Controllers\LoginLogoutController@getAllUser');
     Route::post('/ActiverCompteAdmin/{id}','App\Http\Controllers\admin\AdminController@ActiverComptreParAdmin');
     Route::post('/desActiverCompteAdmin/{id}','App\Http\Controllers\admin\AdminController@desActiverComptreParAdmin');
-    Route::GET('/getAllMessage','App\Http\Controllers\admin\AdminController@getAllMessage'); 
+    Route::get('/getAllMessage','App\Http\Controllers\admin\AdminController@getAllMessage'); 
     Route::post('/reponder','App\Http\Controllers\QuestionsController@AccepteQuestion');
     Route::post('/projet', 'App\Http\Controllers\users\projetController@store');
     Route::delete('/projet/{id}', 'App\Http\Controllers\users\projetController@destroy');
     Route::delete('/supprimerprojet/{nom}', 'App\Http\Controllers\users\projetController@SupprimerParNome');
     
+    
     Route::get('/NombreProjet/{id}','App\Http\Controllers\users\projetController@NombreProjet');
     Route::post('/updatephoto/{id}', 'App\Http\Controllers\LoginLogoutController@updatephotousers');
     Route::post('/modifierPasseProfil', 'App\Http\Controllers\LoginLogoutController@Modifierpassprofil');
-    
+    Route::post('/repondeMessage','App\Http\Controllers\admin\AdminController@repondeMessage');
+    Route::delete('/supprimerMessage/{id}','App\Http\Controllers\admin\AdminController@supprimerMessage');
 });
-
+Route::post('/addinvi', 'App\Http\Controllers\users\invitiController@addinvi');
 Route::get('/datetest', 'App\Http\Controllers\LoginLogoutController@testdateprojet');
 Route::get('/cadeaux/{projet_id}','App\Http\Controllers\CadeauxController@show');
 Route::post('/register', 'App\Http\Controllers\LoginLogoutController@register');
 Route::post('/Login', 'App\Http\Controllers\LoginLogoutController@login');
+
+
+Route::get('/getlikeforprojet/{id}', 'App\Http\Controllers\users\projetController@likeprojet');//get likes par user for all projects
 //ADD MESSAGE USER SON AUTONTIFICATION
 Route::post('/addMessage','App\Http\Controllers\admin\AdminController@addMessage');
 Route::get('/getQestion','App\Http\Controllers\QuestionsController@getQestion');
@@ -81,4 +87,7 @@ Route::post('/ForgetPassemail', 'App\Http\Controllers\LoginLogoutController@Forg
 Route::post('ForgetPass/{email}', 'App\Http\Controllers\LoginLogoutController@ForgetPass1');
 Route::post('ActiverCompte/{email}', 'App\Http\Controllers\LoginLogoutController@ActiverCompte');
 Route::get('/counthomme','App\Http\Controllers\users\projetController@CountTousproduits');
+Route::get('/projetScusshomme','App\Http\Controllers\users\projetController@projetScusshomme');
+Route::get('/projetgethomme','App\Http\Controllers\users\projetController@projetgethomme');
 
+Route::post('payements', 'App\Http\Controllers\users\invitiController@payements');

@@ -39,6 +39,15 @@ const projetenattnde = {
 const messageData = {
     message: [],
 }
+const likeprojet = {
+    like: [],
+}
+const allprojet = {
+    projet: [],
+}
+const inviData = {
+    invi: [],
+}
 export const userReducer = (state = initialState, { type, payload }) => {
     switch (type) {
         case ActionTypes.SET_USERS:
@@ -85,29 +94,68 @@ export const AllUserReducer = (state = alluserStat, { type, payload }) => {
 
     }
 }
-export const MessageReducer = (state = messageData, { type, payload }) => {
-        switch (type) {
-            case ActionTypes.GETALLMESSAGEPOSTER:
-                // return {...state, message: payload };
-                console.log(payload);
-            default:
-                return state;
-        }
+export const invisReducer = (state = inviData, { type, payload }) => {
+    switch (type) {
+        case ActionTypes.POSTINVI:
+            return {...state, invi: payload };
+        case ActionTypes.SUPPRIMERINVI:
+            return {
+                ...state,
+                invi: state.invi.filter(invi => invi.id != payload.id)
+            }
+        default:
+            return state;
     }
-    // export const ProjetDataReducer = (state = projetenattnde, { type, payload }) => {
-    //     switch (type) {
-    //         case ActionTypes.PROJETENATTANDE:
-    //             return {...state, projet: payload };
-    //         case ActionTypes.SUPPRIMERPROJET:
-    //             return { // returning a copy of orignal state
-    //                 ...state, //copying the original state
-    //                 projet: state.projet.filter(projet => projet.id !== payload.id)
-    //                     // returns a new filtered todos array
-    //             }
-    //         default:
-    //             return state;
-    //     }
-    // }
+}
+export const MessageReducer = (state = messageData, { type, payload }) => {
+    switch (type) {
+        case ActionTypes.GETALLMESSAGEPOSTER:
+            return {...state, message: payload };
+        case ActionTypes.SUPPRIMERMESSAGEPOSTERS:
+            return {
+                ...state,
+                message: state.message.filter(message => message.id != payload.id)
+            }
+        default:
+            return state;
+    }
+}
+export const allprojetReducer = (state = allprojet, { type, payload }) => {
+    switch (type) {
+        case ActionTypes.ALLPROJET:
+            return {...state, projet: payload };
+        default:
+            return state;
+    }
+}
+export const likesReducer = (state = likeprojet, { type, payload }) => {
+    switch (type) {
+        case ActionTypes.ALLLIKESPROJETPARUSER:
+            return {...state, like: payload };
+            // case ActionTypes.SUPPRIMERPROJET:
+            //     return { // returning a copy of orignal state
+            //         ...state, //copying the original state
+            //         projet: state.projet.filter(projet => projet.id !== payload.id)
+            //             // returns a new filtered todos array
+            //     }
+        default:
+            return state;
+    }
+}
+export const ProjetDataReducer = (state = projetenattnde, { type, payload }) => {
+    switch (type) {
+        case ActionTypes.PROJETENATTANDE:
+            return {...state, projet: payload };
+        case ActionTypes.SUPPRIMERPROJET:
+            return { // returning a copy of orignal state
+                ...state, //copying the original state
+                projet: state.projet.filter(projet => projet.id !== payload.id)
+                    // returns a new filtered todos array
+            }
+        default:
+            return state;
+    }
+}
 export const QuestionPosserReducer = (state = QuestionState, { type, payload }) => {
     switch (type) {
         case ActionTypes.QUESTIONPASACCEPTE:

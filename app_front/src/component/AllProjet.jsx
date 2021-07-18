@@ -17,20 +17,17 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import RoomIcon from '@material-ui/icons/Room';
 import Skeleton from '@material-ui/lab/Skeleton';
 import TimerIcon from '@material-ui/icons/Timer';
-import Favorite from '@material-ui/icons/Favorite';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
 import { useHistory } from 'react-router-dom';
 import Footer from './Footer';
+import {addProjet} from '../redux/actions/UserActions';
+import { useDispatch } from 'react-redux';
 const useStyles = makeStyles({
     root: {
-      width: '390px',
+      width: '350px',
       marginTop:"30px",
     },
     media: {
-      height:250,
+      height:230,
     
     },
   });
@@ -38,8 +35,7 @@ function AllProjet() {
   let hisory=useHistory();
     const classes = useStyles();
     const [loading,setloading]=useState(true);
-    const [cont,setcont]=useState(0);
-    const [contbtn,setcontbtn]=useState(6);
+    let dispatch = useDispatch();
     const t=["a","z","e","r","t","y"]
     const [state, setState] = React.useState({
         catégorie: '',
@@ -65,6 +61,21 @@ function AllProjet() {
         projet1();
     },[state])
    
+    const likesProjets=async(id)=>{
+      await axios({
+        method: "GET",
+        url: '/getlikeforprojet/'+id,
+        headers: { "Content-Type": "multipart/form-data" ,
+                 },
+        }).then(res=>{
+            if(res.data)
+            {
+                SetProjet(res.data.data);
+            }
+      }).catch(err=>{
+        console.log(err);
+      });
+    }
     const projet1=async()=>{
         setloading(true);
         const frm=new FormData();
@@ -163,8 +174,8 @@ function AllProjet() {
              projet.length==0?
              <div style={{marginTop:'30px'}} className="col-12">
              {/* //style de cette partie in Validation.Css */}
-            <Alert severity="warning" className="alertProjetAuccn">
-            <AlertTitle>Warning</AlertTitle>
+            <Alert severity="info" className="alertProjetAuccn">
+            <AlertTitle>Information</AlertTitle>
             <p>Auccun Projet!!!</p>
            <p>Lancer votre Projets</p>
             </Alert>
@@ -174,14 +185,18 @@ function AllProjet() {
               return(
         <div className="col-sm-12 col-lg-4" key={index} >
          {/* //style creaction seccus */}
-           <Card className={classes.root} >
+           <Card className={classes.root}   >
            <CardActionArea>
              <CardMedia
                className={classes.media}
                image={`http://127.0.0.1:8000/${data.images}`}
                title="Contemplative Reptile"
              />
-             <CardContent>
+             <CardContent onClick={(e)=> {
+            e.preventDefault();
+           dispatch(addProjet(data));
+            hisory.push("/detailleProjet/"+data.nom_projet);
+           }}>
                <Typography gutterBottom variant="h5" component="h2">
                  {data.nom_projet}
                </Typography>
@@ -196,7 +211,7 @@ function AllProjet() {
                {data.Prix_payes}DH/{data.prix_total}DH
                </Typography>
                
-               <ProgressBar variant="success" now={parseInt((data.Prix_payes/data.prix_total)/100)} />
+               <ProgressBar variant="success" now={(data.Prix_payes*100)/data.prix_total} />
                <div style={{display:'flex',marginTop:'10px',justifyContent:'space-between'}}>
                    <span><RoomIcon/>{data.pays}</span>
                    <span>{data.date_fin_projet}<TimerIcon/></span>
@@ -205,25 +220,7 @@ function AllProjet() {
            </CardActionArea>
           
            <CardActions>
-           <FormControlLabel
-            style={{marginTop:'-20px',marginLeft:'10px'}}
-             control={<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} name="checkedH" />}
-             label={`${data.nombre_vote} vote`}
-           />
-           <br />
-          
            </CardActions>
-           <Grid
-              container
-              direction="row"
-              justify="center"
-              alignItems="center"
-               >
-                
-           <button className="btn btn-primary" style={{marginTop:'-20px',marginBottom:"10px"}} onClick={()=>{
-             hisory.push("/detailleProjet/"+data.nom_projet)
-           }}>VOir les detailles</button>
-           </Grid>
          </Card>
          </div>
              )})

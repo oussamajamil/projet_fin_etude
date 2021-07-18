@@ -36,20 +36,19 @@ class likeController extends Controller
      */
     public function store(Request $request,$id_projet)
     {
-        $user_name=session()->get('user_name');
-        $user=DB::table('users')->select('id','nom','prenom')->where('user_name','=',$user_name)->get();
+        
        $exist= DB::table('like_projets')->where([
         ['id_projet','=',$id_projet],
-        ['user_id', '=', $user[0]->id],])->count();
+        ['user_id', '=',  $request->user_id],])->count();
         if($exist==0)
         {
             try
             {
                 DB::table('like_projets')->insert([
-                  'user_id'=>$user[0]->id,
+                  'user_id'=>$request->user_id,
                   'id_projet'=>$id_projet
                 ]);
-                return response()->json(['message'=>'like bien ajouter'],422);
+                return response()->json(['message'=>'like bien ajouter'],200);
             }
             catch(Exception $ex)
             {
@@ -63,8 +62,8 @@ class likeController extends Controller
             {
              DB::table('like_projets')->where([
                 ['id_projet','=',$id_projet],
-                ['user_id', '=', $user[0]->id],])->delete();
-                return response()->json(['message'=>'like supprimer'],422);
+                ['user_id', '=', $request->user_id],])->delete();
+                return response()->json(['message'=>'like supprimer'],200);
              }
              catch(Exception $ex )
              {

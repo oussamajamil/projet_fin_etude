@@ -51,7 +51,7 @@ class LoginLogoutController extends Controller
                
                     $message->to($user->email);
                     $message->subject("$user->user_name,welcome in investissemnt site");
-                    $message->from('oussamajamil01@gmail.com','OussamaJamil');
+                    $message->from('oussamajamil01@gmail.com','ADMIN AMMAL ');
                 });
                 return response()->json(['Token'=>$success,'Data'=>$user->email],200); 
               
@@ -147,7 +147,7 @@ class LoginLogoutController extends Controller
                            
                                 $message->to($users->email);
                                 $message->subject("$users->user_name,modifier mode passe");
-                                $message->from('oussamajamil01@gmail.com','OussamaJamil');
+                                $message->from('oussamajamil01@gmail.com','ADMIN AMMAL');
                             });
                             DB::table('users')->where('email',$users->email)->update(['code_pass'=>$novellePasse]);
                             return response()->json(['message'=>'email Bien envoyer'],200); 

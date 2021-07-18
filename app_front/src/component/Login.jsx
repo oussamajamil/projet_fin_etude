@@ -55,6 +55,11 @@ const useStyles = makeStyles((theme) => ({
  
 function Login() {
   useEffect(() => {
+    if(localStorage.getItem('login')!="" && localStorage.getItem('login')!=undefined)
+    {
+      setemail(localStorage.getItem('login'));
+      setpassword(localStorage.getItem('password'))
+    }
     if(!Cookies.get('user_name'))
     {
       localStorage.removeItem("token");
@@ -76,6 +81,9 @@ function Login() {
   const [emptyEmail,setEmptyemail]=useState('');
   const [emptypassword,setEmptypassword]=useState('');
   const [errorActivate,seterrorActivate]=useState('');
+  const [email,setemail]=useState('');
+  const [password,setpassword]=useState('');
+  const [restConnect,setrestConnect]=useState(false);
   const [rt,srt]=useState(false);
   useEffect(() => {
     if(errorActivate!=null)
@@ -92,7 +100,7 @@ function Login() {
     event.preventDefault();
   };
   const handleChange = (prop) => (event) => {
-    SetLog({ ...log, [prop]: event.target.value });
+    SetLog({ ...log, [prop]:event.target.value });
   };
 	  const classes = useStyles();
   
@@ -106,7 +114,10 @@ function Login() {
   let history = useHistory();
 let connect=useSelector((state)=>state.conn.loginConn);
   const handlesubmit=async(e)=>
-  { e.preventDefault();
+  {
+     e.preventDefault();
+     setEmptyemail('');
+     setEmptypassword('');
     if(validateEmail(log.email) && log.password!="" && log.email!="")
     {
       srt(true);
@@ -143,11 +154,21 @@ let connect=useSelector((state)=>state.conn.loginConn);
             if(res.data.type.Type=="user")
             {   
               history.push('/');
+              if(restConnect==true)
+              {
+                localStorage.setItem('login',log.email);
+                localStorage.setItem('password',log.password);
+              }
             }
             else
             {
               history.push('/doshbordAdmin');
               Cookies.set('type_user',"Admin");
+              if(restConnect==true)
+              {
+                localStorage.setItem('login',log.email);
+                localStorage.setItem('password',log.password);
+              }
              
             }
             
@@ -184,7 +205,7 @@ let connect=useSelector((state)=>state.conn.loginConn);
 
     }
   }
-  
+  console.log('email:'+email);
     return (
         <div>
 		 <Container component="main" maxWidth="xs">
@@ -207,7 +228,7 @@ let connect=useSelector((state)=>state.conn.loginConn);
             id="email"
             label="Email"
             name="email"
-            values={log.email}
+            defaultValue={email}
             autoComplete="email"
             autoFocus
             onChange={handleChange('email')}
@@ -222,8 +243,8 @@ let connect=useSelector((state)=>state.conn.loginConn);
             id="email"
             label="Email"
             name="email"
-            text={coki}
-            values={log.email}
+            text={coki} 
+            defaultValue={email}
             autoComplete="email"
             autoFocus
             onChange={handleChange('email')}
@@ -239,7 +260,7 @@ let connect=useSelector((state)=>state.conn.loginConn);
             id="email"
             label="Email"
             name="email"
-            values={log.email}
+            defaultValue="9ALWA"
             text={coki}
             autoComplete="email"
             autoFocus
@@ -256,7 +277,7 @@ let connect=useSelector((state)=>state.conn.loginConn);
             id="email"
             label="Email"
             name="email"
-            values={log.email}
+            defaultValue={email}
             text={coki}
             autoComplete="email"
             autoFocus
@@ -312,8 +333,10 @@ let connect=useSelector((state)=>state.conn.loginConn);
         </FormControl>}
           
           <FormControlLabel
+        
             control={<Checkbox value="remember" color="primary"  />}
             label="Reste Connecter"
+            onChange={(e)=>setrestConnect(e.target.checked)}
           />
            <Grid container justify="flex-end" item xs={12}>
               <Link href='/envoyerEmail'>

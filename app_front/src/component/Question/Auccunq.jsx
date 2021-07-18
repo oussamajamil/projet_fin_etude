@@ -11,7 +11,7 @@ function Auccunq() {
         <div>
             <div className="container">
            
-            <Alert id="alQes"severity="warning">
+            <Alert id="alQes"severity="info">
             <AlertTitle>Avertissement</AlertTitle>
                 <strong>Aucun Question</strong> 
                 <h5>s'il vous plaît poser des question concernant notre plateforme</h5>

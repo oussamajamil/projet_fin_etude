@@ -331,8 +331,8 @@ const [cont,setcont]=useState(1);
                 cadeaux3:{
                   titre:titre.titre2,
                   description:descT2,
-                  Rechargeable:statecheck.check2,
-                  prix_d_inv:statecheckpr.checkpr2,
+                  Rechargeable:statecheck.check3,
+                  prix_d_inv:statecheckpr.checkpr3,
                 }
               }
                dispatch(errorprojets(null));

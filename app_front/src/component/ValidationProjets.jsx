@@ -51,7 +51,7 @@ async function envoyerProjets()
     
       frm.append('user_id',user_id);
       frm.append('nom_projet',projts1.projets.nom_projet);
-      frm.append('Url_vedio_youtube',projts1.projets.Url_vedio_youtube);
+      frm.append('Url_vedio_youtube',projts1.Url_vedio_youtube);
       frm.append('Résumé',projts1.projets.description);
       frm.append('Catégorie',projts1.projets.catégorie);
       frm.append('pays',projts1.projets.pays);
@@ -111,7 +111,7 @@ async function envoyerProjets()
                       frm2.append('description',cadeaux2.description);
                       frm2.append('Rechargeable',cadeaux2.Rechargeable==false?"non":"oui");
                       frm2.append('prix_debut',parseInt(cadeaux2.prix_d_inv.split("DH-")[0]));
-                      frm2.append('prix_fin',parseInt(cadeaux2.prix_d_inv.split("-")[1].substring(0,3)));
+                      frm2.append('prix_fin',parseInt(cadeaux2.prix_d_inv.split("-")[1].substring(0,4)));
                        axios({
                         method: "post",
                         url: "/AddCadeax",
@@ -129,7 +129,7 @@ async function envoyerProjets()
                               frm3.append('description',cadeaux3.description);
                               frm3.append('Rechargeable',cadeaux3.Rechargeable==false?"non":"oui");
                               frm3.append('prix_debut',parseInt(cadeaux3.prix_d_inv.split("DH-")[0]));
-                              frm3.append('prix_fin',parseInt(cadeaux3.prix_d_inv.split("-")[1].substring(0,3)));
+                              frm3.append('prix_fin',parseInt(cadeaux3.prix_d_inv.split("-")[1].substring(0,5)));
                                axios({
                                 method: "post",
                                 url: "/AddCadeax",
@@ -234,10 +234,12 @@ const [loading,setloading]=useState(false);
     return (
         <div>
           <div className="row">
+           
               <div className="col-sm-12 col-lg-6 col-md-6">
+              <span style={{fontSize:'0.8em'}}>Supérieur 3 jours ou un mois a aujourd'hui</span>
               <TextField
               error={errD!="" && true}
-              style={{marginTop:'20px',marginBottom:'20px'}}
+              style={{marginTop:'10px',marginBottom:'20px'}}
                variant="outlined"
                required
                fullWidth
@@ -255,7 +257,8 @@ const [loading,setloading]=useState(false);
            />
               </div>
             <div className="col-sm-12 col-lg-6 col-md-6">
-            <FormControl variant="outlined"  fullWidth  style={{marginTop:'20px',marginBottom:'20px'}}>
+            <span style={{fontSize:'0.8em'}}>choiser nombre de jours</span>
+            <FormControl variant="outlined"  fullWidth  style={{marginTop:'10px',marginBottom:'20px'}}>
         <InputLabel htmlFor="outlined-age-native-simple">nombre joures</InputLabel>
         <Select
           error={errDayp==""?false:true}

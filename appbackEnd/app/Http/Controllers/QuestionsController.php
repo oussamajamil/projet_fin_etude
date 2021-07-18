@@ -59,17 +59,16 @@ class QuestionsController extends Controller
         {
             try
             {
-                $nombre=DB::table('questions')->where('accepte','oui')->count();
+                $nombre=DB::table('questions')->where('accepte','non')->count();
                 if($nombre>0)
                 {
-                    $questions=DB::table('questions')->where('accepte','=','non')->get();
                     $questions = DB::table('questions')
                     ->join('users', 'users.id', '=', 'questions.user_id')
                     ->select('questions.*', 'users.user_name','users.nom','users.prenom','users.photo')
                     ->where('accepte','non')
                     ->orderBy('id','DESC')
                     ->get();
-                    return response()->json(['Data'=>$questions,'nombre'=>$nombre],200);
+                    return response()->json(['Data'=>$questions],200);
                 }
                else
                {

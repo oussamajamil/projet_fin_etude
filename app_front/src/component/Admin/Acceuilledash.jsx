@@ -6,14 +6,12 @@ import {Pie} from 'react-chartjs-2';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
-import CategoryIcon from '@material-ui/icons/Category';
-import Typography from '@material-ui/core/Typography';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import TimerIcon from '@material-ui/icons/Timer';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import ProgressBar from 'react-bootstrap/ProgressBar';
-import RoomIcon from '@material-ui/icons/Room';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import {TableHead,TableCell,TableRow,TableBody,TableContainer,Table} from '@material-ui/core';
 function Acceuilledash() {
   let history=useHistory();
  
@@ -21,13 +19,30 @@ function Acceuilledash() {
  const [datas,setdatas]=useState({});
  const[sessuc,setsessuc]=useState({});
  const [loading,setloadin]=useState(false);
- const [mProjet,setmProjet]=useState({});
+ //cote invi 
+ const [loadinvi,setloadinvi]=useState(false);
+ const [invi,setinvi]=useState([]);
  useEffect(() => {
   RemplirDataAdmin();
   getseccusProjet();
-  meilleurProjet();
+  getinviparjour();
 }, [])
-
+const getinviparjour=async()=>{
+  setloadinvi(true);
+  let token='Bearer '+localStorage.getItem('token');
+  await axios({
+       method: "GET",
+       url: '/inviParjours',
+       headers: { "Content-Type": "multipart/form-data" , 
+                    "Authorization":token
+                },
+               }).then(res=>{
+                setinvi(res.data.data);
+               }).catch(err=>{
+                    history.push('/error');
+               })
+               setloadinvi(false);
+}
 const getseccusProjet=()=>
 {
   let token='Bearer '+localStorage.getItem('token');
@@ -44,23 +59,6 @@ const getseccusProjet=()=>
                 })
                 
 }
-const meilleurProjet=async()=>
-  {
-  
-    let token='Bearer '+localStorage.getItem('token');
-   await axios({
-        method: "GET",
-        url: '/mieurprojet',
-        headers: { "Content-Type": "multipart/form-data" , 
-                     "Authorization":token
-                 },
-                }).then(res=>{
-                  setmProjet(res.data);
-                }).catch(err=>{
-                     history.push('/error');
-                })
-                
-  }
   const RemplirDataAdmin=async()=>
   {
     setloadin(true);
@@ -98,7 +96,6 @@ const meilleurProjet=async()=>
       ]
     }]
   };
-  console.log(mProjet);
     return (
     <section class="grid">
      <article>
@@ -164,60 +161,33 @@ const meilleurProjet=async()=>
       }
     </article>
     <article style={{width:'500px',height:'550px'}} >
-      
-      <div className="row">
-     {mProjet.data?
-      <div className="col-12">
-      <span style={{marginLeft:'120px',fontSize:'40px'}}> meilleure projet</span>
-      <Card >
-           <CardActionArea>
-             <CardMedia
-              
-               image={`http://127.0.0.1:8000/${mProjet.images}`}
-               title="Contemplative Reptile"
-             />
-             <CardContent>
-               <Typography gutterBottom variant="h5" component="h2">
-                 {data.nom_projet}
-               </Typography>
-               <Typography variant="body2" color="textSecondary" component="p">
-               {data.Résumé}
-               </Typography>
-               <Typography component="h4" style={{marginTop:"9px"}}>
-             <p style={{color:'#f50057'}}><CategoryIcon style={{marginTop:"-3px"}}/>{mProjet.Catégorie}</p>
-               </Typography>
-     
-               <Typography component="h3" style={{marginTop:"9px"}}>
-               {mProjet.Prix_payes}DH/{mProjet.prix_total}DH
-               </Typography>
-               
-               <ProgressBar variant="success" now={parseInt((mProjet.Prix_payes/mProjet.prix_total)/100)} />
-               <div style={{display:'flex',marginTop:'10px',justifyContent:'space-between'}}>
-                   <span><RoomIcon/>{mProjet.pays}</span>
-                   <span>{mProjet.date_fin_projet}<TimerIcon/></span>
-               </div>
-             </CardContent>
-           </CardActionArea>
-           <Grid
-              container
-              direction="row"
-              justify="center"
-              alignItems="center"
-               >
-                
-           <button className="btn btn-primary" style={{marginTop:'-20px',marginBottom:"10px"}} onClick={()=>{
-             history.push("/detailleProjet/"+data.nom_projet)
-           }}>VOir les detailles</button>
-           </Grid>
-         </Card>
-     </div>
-     :
-     <div className="col-12">
-      <span style={{marginLeft:'120px',fontSize:'40px'}}> meilleure projet</span>
-     <Alert className="alertADMINPROJET" severity="warning">c'est le debut de notre platform</Alert>
-     </div>
-     }
-     
+       <div style={{display:'flex',flexDirection:'column'}}>
+      <p className="titreinviparjours">investissement de ce journée</p>
+      {
+        loadinvi==true?"":
+        <TableContainer  style={{color:'#fafad2',width:'500px',}}>
+        <Table  style={{color:'#fafad2',width:'100%'}}  size="small" aria-label="a dense table">
+          <TableBody>
+        {invi.map((dt,index)=>{
+          
+          return(
+            <>
+             <TableRow key={index}>
+             <TableCell align="center">
+             <ArrowUpwardIcon style={{color: '#32cb00'}}/>{dt.nom_projet}<br/>
+               {dt.prix+'DH'}
+             </TableCell>
+             </TableRow>
+            </>
+          )
+          // }
+        
+          
+        })}
+            </TableBody>
+      </Table>
+    </TableContainer>
+      }
       </div>
     </article>
     <article style={{width:'500px',height:'550px'}}>

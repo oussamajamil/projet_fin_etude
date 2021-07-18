@@ -11,6 +11,7 @@ use DateTime;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class projetController extends Controller
 {
@@ -105,31 +106,44 @@ class projetController extends Controller
        $cat=$request->Catégorie;
        if($pay=='' && $cat=='')
        {
-        $projet=DB::table('projets')->where('accepte','oui')->get();
+        $projet=DB::table('projets')->where([['accepte','oui'],['date_lance_projet','<=',date('Y-m-d')]])->get();
         return response()->json(['data'=>$projet],200);
            
        }  
        if($pay=='' && $cat!='')
        {
-        $projet=DB::table('projets')->where([['accepte','oui'],['Catégorie',$cat]])->get();
+        $projet=DB::table('projets')->where([['accepte','oui'],['Catégorie',$cat],['date_lance_projet','<=',date('Y-m-d')]])->get();
         return response()->json(['data'=>$projet],200);
        }
        if($pay!='' && $cat=='')
        {
-        $projet=DB::table('projets')->where([['accepte','oui'],['pays',$pay]])->get();
+        $projet=DB::table('projets')->where([['accepte','oui'],['pays',$pay],['date_lance_projet','<=',date('Y-m-d')]])->get();
         return response()->json(['data'=>$projet],200);
        }
        if($pay!='' && $cat!='')
        {
-        $projet=DB::table('projets')->where([['accepte','oui'],['pays',$pay],['Catégorie',$cat]])->get();
+        $projet=DB::table('projets')->where([['accepte','oui'],['pays',$pay],['Catégorie',$cat],['date_lance_projet','<=',date('Y-m-d')]])->get();
         return response()->json(['data'=>$projet],200);
        }
     }
-    public function projet_tres_cher()
+    
+    public function likeprojet($user_name)
     {
-
+        $id=DB::table('users')->select('id')->where('user_name',$user_name)->get();
+       
+        try
+        {
+            $projet=DB::table('like_projets')
+            ->where('user_id',$id[0]->id)
+            ->get();
+            return response()->json(['data'=>$projet],200);
+        }
+        catch(exception $ex)
+        {
+            return response()->json(['error'=>$ex->getMessage()],400);
+        }
+        
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -180,12 +194,13 @@ class projetController extends Controller
             try
             {
                 $db1=DB::table('projets')->where("accepte","oui")->count();
-                $db2=DB::table('investissements')->count();
-                $proxinv=DB::table('investissements')->select('Prixdinvetissemnt')->get();
+                $db2=DB::table('invi')->count();
+                $proxinv=DB::table('invi')->select('prix')->get();
                 foreach ($proxinv as $prix) {
-                   $somme=$somme+floatval($proxinv);
+                   $somme=$somme+floatval($prix->prix);
                 }
-                return response()->json(["oui"=>$db1,"non"=>$db2,"prix"=>$db2],200);
+                return response()->json(["oui"=>$db1,"non"=>$db2,"prix"=>$somme],200);
+               
             }
             catch(Exception $ex)
             {
@@ -359,9 +374,10 @@ class projetController extends Controller
          else{
             $user_id=DB::table('projets')->select('user_id')->where('id',$id)->get();
             DB::table('cadeauxes')->where('projet_id', $id)->delete();
+             
+            //  $nombreProjetLancer=DB::table('users')->select('nembre_projet_lancer')->where('id',$user_id[0]->user_id)->get();
+            //  DB::table('users')->where('id',$user_id[0]->user_id)->update(['nembre_projet_lancer'=>intval($nombreProjetLancer[0]->nembre_projet_lancer)-1]);
              Projet::destroy($id);
-             $nombreProjetLancer=DB::table('users')->select('nombreProjetLancer')->where('id',$user_id)->get();
-             DB::table('users')->where('id',$user_id)->update(['nembre_projet_lancer',$nombreProjetLancer-1]);
              return response()->json([
                 'message' =>'projet bien supprimé',
             ], 200);
@@ -383,5 +399,90 @@ class projetController extends Controller
          return response()->json(['error',$ex->getMessage()],200);
         }   
     }
+
+        public function projetScusshomme()
+        {
+            try
+            {
+                $pins = array();
+                $id=array();
+                $lasttable=array();
+                $noveutable=array();
+                $cont=0;
+                $conts=0;
+                $projet=DB::table('projets')->where("success","oui")->get();
+                while($cont<3)
+                {
+                $random=rand(0,(sizeOf($projet)-1));
+                if(in_array($projet[$random]->id,$noveutable)==false)
+                {
+                    $noveutable[$cont]=$projet[$random]->id;  
+                    $cont++;
+                }
+                }
+                for($KK=0;$KK<sizeOf($projet);$KK++)
+                {
+                for($ll=0;$ll<3;$ll++)
+                {
+                    if($noveutable[$ll]==$projet[$KK]->id)
+                    {
+                        $conts++;
+                        array_push($lasttable, $projet[$KK]);
+                        if($conts==3)
+                        break;
+                    }
+                }
+                }
+                return response()->json(["data"=>$lasttable],200);
+              
+            }
+            catch(exception $ex)
+            {
+                return response()->json([$ex->getMessage()],200);
+            }
+         
+        }
+        public function projetgethomme()
+        {
+            try
+            {
+                $pins = array();
+                $id=array();
+                $lasttable=array();
+                $noveutable=array();
+                $cont=0;
+                $conts=0;
+                $projet=DB::table('projets')->where("success","en attand")->get();
+                while($cont<3)
+                {
+                $random=rand(0,(sizeOf($projet)-1));
+                if(in_array($projet[$random]->id,$noveutable)==false)
+                {
+                    $noveutable[$cont]=$projet[$random]->id;  
+                    $cont++;
+                }
+                }
+                for($KK=0;$KK<sizeOf($projet);$KK++)
+                {
+                for($ll=0;$ll<3;$ll++)
+                {
+                    if($noveutable[$ll]==$projet[$KK]->id)
+                    {
+                        $conts++;
+                        array_push($lasttable, $projet[$KK]);
+                        if($conts==3)
+                        break;
+                    }
+                }
+                }
+                return response()->json(["data"=>$lasttable],200);
+              
+            }
+            catch(exception $ex)
+            {
+                return response()->json([$ex->getMessage()],200);
+            }
+         
+        }
 
 }

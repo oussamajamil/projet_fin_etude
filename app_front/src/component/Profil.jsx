@@ -52,6 +52,7 @@ const handleClose = () =>{
   cerror({...error,errorpass:"",errornouvpass:"",errorcnouveaupass:""});
    setShow(false);
    setValues({ ...values, password: '' , nouveaupass: '' , confnouveaupass: ''});
+   setdatapass('');
   };
 const handleShow = () => setShow(true);
 const onImageChange =(e) => {
@@ -163,7 +164,7 @@ const onImageChange =(e) => {
   useEffect(() => {
    if(images!="")
    {
-    if((images.name.split('.')[1]).toUpperCase()=="PNG" ||(images.name.split('.')[1]).toUpperCase()=="JPG")
+    if((images.name.split('.')[1]).toUpperCase()=="PNG" ||(images.name.split('.')[1]).toUpperCase()=="JPG"||(images.name.split('.')[1]).toUpperCase()=="JPEG")
     {
       uploadPhoto();
     }
@@ -171,18 +172,8 @@ const onImageChange =(e) => {
    }
     
 }, [images])
-  function SupprimerProjets(id,e){
-    let token='Bearer '+localStorage.getItem('token');
-    e.preventDefault();
-   axios({
-    method: "Delete",
-    url: "/projet/"+id,
-     headers: { "Content-Type": "multipart/form-data" , 
-                         "Authorization":token
-                     },
-    }).then(res=>{
-      window.location.reload();
-    }).catch(err=>console.log(err));
+  function SupprimerProjets(id){
+  
   }
     const classes = useRowStyles();
     let history = useHistory();
@@ -313,8 +304,25 @@ const onImageChange =(e) => {
               <TableCell align="right">{row.accepte=="en attand"?<HourglassFullTwoToneIcon className="attand1"  />:row.accepte=="oui"?<CheckCircleOutlineTwoToneIcon className="succ1"/>:<RemoveCircleOutlineTwoToneIcon className="refuser1"/>}</TableCell>
               <TableCell align="right">
               {row.accepte=="oui"?
-                            <button disabled onClick={(e)=>SupprimerProjets(row.id,e)}>Spprimer</button>:
-                            <button onClick={(e)=>SupprimerProjets(row.id,e)}>Spprimer</button>
+                            <button disabled className="btn" style={{marginLeft:'5px'}}>Spprimer</button>:
+                            <button className="btn btn-danger" onClick={(e)=>
+                              {
+                                e.preventDefault();
+                                let token='Bearer '+localStorage.getItem('token');
+                                axios({
+                                 method: "Delete",  
+                                 url: "/projet/"+row.id,
+                                  headers: { "Content-Type": "multipart/form-data" , 
+                                                      "Authorization":token
+                                                  },
+                                 }).then(res=>{
+                                   window.location.reload();
+                                 }).catch(err=>console.log(err));
+
+                              }}>
+                              
+                                Spprimer
+                                </button>
                          }
                 </TableCell>
             </TableRow>

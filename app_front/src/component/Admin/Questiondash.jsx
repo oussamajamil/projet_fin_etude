@@ -39,6 +39,7 @@ function Questiondash() {
                         placeholder="Votre reponde"
                         aria-label="Recipient's username"
                         aria-describedby="basic-addon2"
+                        value={repnde}
                         onChange={(event)=>{
                             event.preventDefault();
                             setreponde(event.target.value);
@@ -60,12 +61,11 @@ function Questiondash() {
                                         },
                                         }).then(res=>{ 
                                             dispatch(supprimerQestion({id:dt.id}));
+                                            setreponde('');
                                         }).catch(err=>{
                                             console.log(err);
                                         })
-                                                        
-                        
-                            // 
+                                       
                         }}>
                         répondre
                         </Button>

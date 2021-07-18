@@ -18,6 +18,10 @@ import axios from 'axios';
 import { useHistory } from 'react-router';
 import Alert from '@material-ui/lab/Alert';
 import {supproj} from '../../redux/actions/UserActions';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 const useStyles = makeStyles({
   root: {
     width: 300,
@@ -29,7 +33,11 @@ const useStyles = makeStyles({
 });
 function ProjetDash() {
   const [show, setShow] = useState(false);
-const handleClose = () => setShow(false);
+const handleClose = () =>{
+  setShow(false)
+  setresult(0);
+  setvaribledemodal(0);
+};
 const handleShow = () => setShow(true);
 const [result,setresult]=useState(0);
 const [varibledemodal,setvaribledemodal]=useState(0);
@@ -111,7 +119,7 @@ let history = useHistory();
         <Modal.Footer>
        
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            exit
           </Button>
           {varibledemodal==1?
           result=='true'?

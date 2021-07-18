@@ -8,8 +8,10 @@ import HomeIcon from '@material-ui/icons/Home';
 import WorkIcon from '@material-ui/icons/Work';
 import GroupIcon from '@material-ui/icons/Group';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import MessageEmail  from './MessageEmail'
 import Grid from '@material-ui/core/Grid';
 import {Row,Container,Col,Card} from 'react-bootstrap';
+import Avatar from '@material-ui/core/Avatar';
 import {useDispatch, useSelector} from 'react-redux';
 import {admin} from '../../redux/actions/UserActions';
 import Acceuilledash from './Acceuilledash.jsx';
@@ -17,44 +19,47 @@ import UserAdmin from './UserAdmin';
 import Questiondash from './Questiondash';
 import Badge from '@material-ui/core/Badge';
 import axios from 'axios';
+import imageslogo from './imageAdmin/OJ.png'
 import ProjetDash from './ProjetDash'; 
 import EmailIcon from '@material-ui/icons/Email';
 import {allser,getAllQestionposer,getallprojetenattande,getallmessage} from '../../redux/actions/UserActions';
 function Doshbord() {
+  const user1=useSelector((state)=>state.app1.user_connecter);
   const getAllMessagePoster=async()=>{
     let token='Bearer '+localStorage.getItem('token');
   await axios({
+
       method: "GET",
       url: '/getAllMessage',
       headers: { "Content-Type": "multipart/form-data" , 
                    "Authorization":token
                },
               }).then(res=>{ 
-            
+                console.log(res.data.data);
                dispatch(getallmessage(res.data.data));
               }).catch(err=>{
                  console.log(err);
               })
   }
-  // const getallprojet=async()=>
-  // {
-  //   let token='Bearer '+localStorage.getItem('token');
-  //   await axios({
+  const getallprojet=async()=>
+  {
+    let token='Bearer '+localStorage.getItem('token');
+    await axios({
 
-  //         method: "GET",
-  //         url: '/projetenattante',
-  //         headers: { "Content-Type": "multipart/form-data" , 
-  //                      "Authorization":token
-  //                  },
-  //                 }).then(res=>{ 
-  //                   if(res.data.data)
-  //                   dispatch(getallprojetenattande(res.data.data));
-  //                   if(res.data.message)
-  //                    dispatch(getallprojetenattande());
-  //                 }).catch(err=>{
-  //                    console.log(err);
-  //                 })
-  // }
+          method: "GET",
+          url: '/projetenattante',
+          headers: { "Content-Type": "multipart/form-data" , 
+                       "Authorization":token
+                   },
+                  }).then(res=>{ 
+                    if(res.data.data)
+                    dispatch(getallprojetenattande(res.data.data));
+                    if(res.data.message)
+                     dispatch(getallprojetenattande());
+                  }).catch(err=>{
+                     console.log(err);
+                  })
+  }
   const getallquestion=async()=>
   {
     
@@ -98,6 +103,7 @@ function Doshbord() {
     const ladate=new Date();
     const[loadacceuille,setloadacceuille]=useState(1);
     const  Questionsdata= useSelector((state)=>state.QuestionPoser.question);
+    const [ques,setques]=useState('');
     useEffect(() => {
     
       if(Cookies.get("type_user")!="Admin")
@@ -110,11 +116,10 @@ function Doshbord() {
         getallser();
         getAllMessagePoster();
         getallquestion();
-        // getallprojet();
+        getallprojet();
         
       }
     }, [])
-console.log(Questionsdata.lenght);
     return (
       
    <>   
@@ -190,8 +195,8 @@ console.log(Questionsdata.lenght);
     </button>
 
     <div style={{display:'flex',flexDerction:'column'}}>
-    <img src="././slideHomme/hero-4.jpg"/>
-    <h4 style={{color:'palevioletred',marginLeft:'40px'}}>Ammal</h4>
+    <img src={imageslogo}/>
+    <h4 style={{color:'palevioletred',marginLeft:'40px'}}>AMMAL</h4>
   </div>
     <ul class="admin-menu">
       <li class="menu-heading">
@@ -214,7 +219,7 @@ console.log(Questionsdata.lenght);
           <svg>
             <use href="#users"></use>
           </svg>
-          <span>Users</span>
+          <span>utilisateurs</span>
         </button>
       </li>
       <li>
@@ -225,7 +230,7 @@ console.log(Questionsdata.lenght);
           <svg>
             <use href="#comments"></use>
           </svg>
-          <span>Questions <Badge badgeContent={Questionsdata.lenght} color="error" style={{marginLeft:'70px'}}></Badge></span>
+          <span>Questions</span>
         </button>
       </li>
 
@@ -236,7 +241,7 @@ console.log(Questionsdata.lenght);
           <svg>
             <use href="#trends"></use>
           </svg>
-          <span>Projets<Badge badgeContent={4} color="error" style={{marginLeft:'90px'}}></Badge></span>
+          <span>Projets</span>
         </button>
       </li>
       <li>
@@ -259,13 +264,9 @@ console.log(Questionsdata.lenght);
           <span>Voir site</span>
         </button>
       </li>
-     
-     
-   
-     
       <li>
         <li>
-        <span classnameName="spandate"> {ladate.getDate()+"/"+(ladate.getMonth()+1)+"/"+ladate.getFullYear()}</span>
+        <span className="spandate"> {ladate.getDate()+"/"+(ladate.getMonth()+1)+"/"+ladate.getFullYear()}</span>
         </li>
       </li>
     
@@ -276,11 +277,12 @@ console.log(Questionsdata.lenght);
 <section class="page-content">
   <section class="search-and-user " >
     <div class="admin-profile">
-      <span class="greeting">oussama jamil</span>
+      <span class="greeting">{user1!=undefined? user1.nom+" "+user1.prenom:''}</span>
       <div class="notifications">
-        <span class="badge">1</span>
         <svg>
-          <use href="#users"></use>
+        <Avatar src={user1 && user1.photo!="images/user.png"?"http://127.0.0.1:8000/"+user1.photo:''}>
+              {user1 && user1.photo=="images/user.png"?user1.nom.charAt(0).toUpperCase()+user1.prenom.charAt(0).toUpperCase():''}
+          </Avatar>
         </svg>
       </div>
     </div>
@@ -295,6 +297,8 @@ console.log(Questionsdata.lenght);
     <Questiondash/>:
     navigation===4?
     <ProjetDash/>:
+    navigation===5?
+    <MessageEmail/>:
     ''
    }
   <footer class="page-footer">

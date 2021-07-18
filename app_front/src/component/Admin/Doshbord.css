@@ -262,8 +262,14 @@ svg {
 }
 
 .spandate {
-    font-size: 40px!important;
-    color: red;
+    font-size: 30px!important;
+    color: rgb(221, 204, 236);
+}
+
+.titreinviparjours {
+    text-shadow: 1px 1px white, -1px -1px #444;
+    margin-top: 3px;
+    margin-left: 40px
 }
 
 .admin-profile {
