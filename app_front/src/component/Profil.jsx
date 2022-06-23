@@ -108,7 +108,6 @@ const onImageChange =(e) => {
                         if(res.data.message=="bie modifier")
                         {
                           setdatapass("Mot De Passe Bien Modifier")
-                          console.log("bien modifier");
                           cerror({...error,errornouvpass:""});
                           cerror({...error,errorcnouveaupass:""});
                           cerror({...error,errorpass:""})  

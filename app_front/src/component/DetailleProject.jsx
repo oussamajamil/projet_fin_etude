@@ -315,8 +315,7 @@ function DetailleProject()
           visible: invs.visible==true?"oui":"non",
         }
         dispatch(addinvi(contents));
-        setpageload('payement');
-        console.log(contents);
+        setpageload('payement')
       }
       
     }}>invister</Button>

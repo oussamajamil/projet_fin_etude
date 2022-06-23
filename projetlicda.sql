@@ -1084,7 +1084,6 @@ INSERT INTO `questions` (`id`, `Qustion`, `user_id`, `reponde`, `accepte`, `crea
 (83, 'DDDDDDD', 11, 'dnajkbndjkzbnefdnzfnzern', 'oui', '2021-06-03 17:11:20', '2021-06-03 17:11:20'),
 (84, 'gbb;bvvvvv', 11, 'fvfjdvcidlcodjc,dscvldfnvklfdnsklcv,vcsd,klncfrndvncfkdcvk', 'oui', '2021-06-04 19:47:45', '2021-06-04 19:47:45'),
 (85, 'hello oussama', 11, 'dnajkbndjkzbnefdnzfnzern', 'oui', '2021-06-24 05:55:41', '2021-06-24 05:55:41'),
-(86, '9alwa 9alwa 9alwa', 11, 'oussama', 'oui', '2021-06-24 08:31:56', '2021-06-24 08:31:56');
 
 -- --------------------------------------------------------
 

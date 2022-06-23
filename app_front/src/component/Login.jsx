@@ -205,7 +205,7 @@ let connect=useSelector((state)=>state.conn.loginConn);
 
     }
   }
-  console.log('email:'+email);
+;
     return (
         <div>
 		 <Container component="main" maxWidth="xs">
@@ -260,7 +260,7 @@ let connect=useSelector((state)=>state.conn.loginConn);
             id="email"
             label="Email"
             name="email"
-            defaultValue="9ALWA"
+            defaultValue=""
             text={coki}
             autoComplete="email"
             autoFocus
